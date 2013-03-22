@@ -36,3 +36,15 @@ we're using [rq](http://python-rq.org).
 test the classifier via nose:
 
     $ nosetests serve
+
+
+### Running on the server
+
+it's terrible, but we're just running a bare flask server and the worker behind screen;
+here are some helpful commands
+
+    $ screen -ls  # view sessions
+    $ screen -r  # reattach to a session with tab
+    $ [Ctrl-a] [c]   # within screen, create a new window
+    $ [Ctrl-a] [n], [Ctrl-a] [p]  # within screen, navigate windows
+    $ [Ctrl-d]  # detach screen session
