@@ -2,9 +2,16 @@
 simple flask server
 '''
 from flask import Flask, request, abort, render_template, redirect, url_for
+from mongoengine import connect
 
+# initiate the webapp
 app = Flask(__name__)
 app.config.from_envvar('REDREAM_SETTINGS')
+
+# connect to the db
+mongo_config = app.config['MONGO']
+connect(mongo_config['db_name'], host=mongo_config['host']
+        , port=int(mongo_config['port']))
 
 
 @app.route('/', methods=['GET', 'POST'])
