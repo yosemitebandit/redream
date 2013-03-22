@@ -44,10 +44,11 @@ table {
 }
 
 
+
 /* Begin Styles */
 
 body {
-	background-image: url(http://pixelgirlpresents.com/files/desktops/Guist_2560x1600.jpg);
+	background-image: url(img/background.jpg);
 	background-size: 1600px;
 	background-repeat: no-repeat;
 }
@@ -58,6 +59,18 @@ h1 {
 	font-family: "helvetica", sans-serif;
 	font-size: 60px;
 	color: #FFFDCB;
+}
+
+#redream_logo {
+	width: 218px;
+	height: 218px;
+	font-family: 'Amatic SC', cursive;
+	font-size: 48px;
+	text-align:center;
+	line-height: 210px;
+	color: #ffffff;
+	position: absolute;
+	z-index: 2;
 }
 
 #dream-text-input-box {
@@ -72,9 +85,81 @@ h1 {
 	background-color: #5A6850;
 }
 
+#smallCircle {
+	width: 218px;
+	height: 218px;
+	background-color: #d8ca81;
+	border-radius: 50%;
+	position: absolute;
+    left: 0;
+    top: 0;
+	-webkit-box-shadow: 0 0 4px 2px #edeab7;
+    -moz-box-shadow: 0 0 4px 2px #edeab7;
+    box-shadow: 0 0 4px 2px #edeab7;
+	z-index: 1;
+	
+	filter: blur(2px);
+  	-webkit-filter: blur(2px);
+  	-moz-filter: blur(2px);
+  	-o-filter: blur(2px);
+ 	-ms-filter: blur(2px);
 
+}
 
+#largeCircle {
+	width: 530px;
+	height: 530px;
+	background-color: #cfbc6d;
+	border-radius: 50%;
+	position: absolute;
+    left: 65px;
+    top: 65px;
+	z-index: 0;
+	
+	filter: blur(2px);
+  	-webkit-filter: blur(2px);
+  	-moz-filter: blur(2px);
+  	-o-filter: blur(2px);
+ 	-ms-filter: blur(2px);
 
+}
+
+#largeCircleOpacity {
+	/* Required for IE 5, 6, 7 */
+	/* ...or something to trigger hasLayout, like zoom: 1; */
+	width: 100%; 
+		
+	/* Theoretically for IE 8 & 9 (more valid) */	
+	/* ...but not required as filter works too */
+	/* should come BEFORE filter */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	
+	/* This works in IE 8 & 9 too */
+	/* ... but also 5, 6, 7 */
+	filter: alpha(opacity=75);
+	
+	/* Older than Firefox 0.9 */
+	-moz-opacity:0.75;
+	
+	/* Safari 1.x (pre WebKit!) */
+	-khtml-opacity: 0.75;
+    
+	/* Modern!
+	/* Firefox 0.9+, Safari 2?, Chrome any?
+	/* Opera 9+, IE 9+ */
+	opacity: 0.75;
+}
+
+#circleContainer {
+
+	width: 600;
+	height: 600;
+	position: absolute;
+    top: 0px;
+    left: 50%;
+	margin-left: -300px;
+	margin-top: 30px;
+}
 
 
 
