@@ -1,13 +1,26 @@
 ''' tasks.py
 asynch jobs that should be enqueued
 '''
+from mongoengine import connect
 import nltk
 import re
 
-def process_dream(dream):
+from models import Dream
+
+def process_dream(dream_slug, mongo_config):
     ''' pull important words from a dream's description
     then find relevant clips for each keyword
+
+    having an annoying issue getting connected to mongo in this file..
+    thus the silly passing of the mongo config data
     '''
+    # connect to mongo
+    connect(mongo_config['db_name'], host=mongo_config['host']
+            , port=int(mongo_config['port']))
+
+    dreams = Dream.objects(slug=dream_slug)
+    dream = dreams[0]
+
     keywords = _find_keywords(dream.description)
     dream.update(set__keywords = keywords)
 

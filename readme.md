@@ -23,6 +23,14 @@ flying up the houseboat stairs (keywords: frisbees, stairs, spirals)
 * I jumped over the fence of my childhood neighbor’s backyard and there were bright pink, blue and orange snakes. It was very frightening and I quickly climbed out. 
 
 
+### Running the worker
+
+we're using [rq](http://python-rq.org).
+
+    $ cd serve
+    $ rqworker
+
+
 ### Testing
 
 test the classifier via nose:

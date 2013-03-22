@@ -2,15 +2,19 @@
 
 {% block body %}
 
-<p>dream desc:</p>
-<p>{{ dream.description }}</p>
+<p>
+  dream desc:
+  "{{ dream.description }}"
+</p>
 <p>created: {{ dream.created }}</p>
 
-<p>dream keywords:</p>
+<p>keywords:</p>
 {% if dream.keywords %}
+  <ul>
   {% for kw in dream.keywords %}
-    <p>kw</p>
+    <li>{{ kw }}</li>
   {% endfor %}
+  </ul>
 
 {% else %}
   <p>still processing keywords..</p>

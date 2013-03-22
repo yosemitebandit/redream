@@ -45,7 +45,7 @@ def home():
         new_dream.save()
 
         # enqueue the processing for keyword extraction and sourcing clips
-        queue.enqueue(process_dream, new_dream)
+        queue.enqueue(process_dream, new_dream.slug, mongo_config)
 
         # redirect to the invidiual dream page
         return redirect(url_for('dream', dream_slug = new_dream.slug))
