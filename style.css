@@ -53,13 +53,23 @@ body {
 }
 
 h1 {
+	margin: 10px;
+	padding: 10px;
 	font-family: "helvetica", sans-serif;
 	font-size: 60px;
-	font-weight: bold;
+	color: #FFFDCB;
+}
+
+#dream-text-input-box {
+	margin: 0 10px 0 20px;
+	padding: 10px;
 }
 
 #dream-text-input {
 	font-family: "helvetica", sans-serif;
+	font-size: 16px;
+	color: #FFFDCB;
+	background-color: #5A6850;
 }
 
 
