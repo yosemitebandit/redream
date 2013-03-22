@@ -10,3 +10,9 @@ PORT = 4003
 
 # generate a real secret key with os.urandom(24)
 SECRET_KEY = 'keep it secret, keep it safe'
+
+MONGO = {
+    'db_name': 'redream'
+    , 'host': 'localhost'
+    , 'port': 27017
+}
