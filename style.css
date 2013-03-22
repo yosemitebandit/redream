@@ -55,9 +55,13 @@ body {
 h1 {
 	margin: 10px;
 	padding: 10px;
-	font-family: "helvetica", sans-serif;
+	font-family: "gabriela", serif;
 	font-size: 60px;
-	color: #FFFDCB;
+	color: #FFFCE5;
+}
+
+img {
+	float: left;
 }
 
 #dream-text-input-box {
@@ -66,13 +70,48 @@ h1 {
 }
 
 #dream-text-input {
-	font-family: "helvetica", sans-serif;
-	font-size: 16px;
-	color: #FFFDCB;
+	margin-top: 50px;
+	padding: 10px;
+	position: relative;
+	font-family: "dosis", sans-serif;
+	font-size: 24px;
+	color: #FFFCE5;
 	background-color: #5A6850;
+	border-radius: 10px;
+	border: none;
 }
 
+#dream-text-input:hover {
+	background-color: #91643D;
+	-moz-transition: background-color 10s, -moz-transform 10s;
+    -webkit-transition: background-color 10s, -webkit-transform 10s;
+    -o-transition: background-color 10s, -o-transform 10s;
+    transition: background-color 10s, transform 10s;
+}
 
+#dream-text-input:focus {
+      outline:0;
+      outline:none;
+}
+
+#dream-input-button {
+	padding: 8px 12px;
+	font-size: 18px;
+	font-family: "dosis", sans-serif;
+	color: #FFFCE5;
+	background-color: #9BAE81;
+	border: none;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 2px 5px #404040;
+	-webkit-box-shadow: 1px 2px 5px #404040;
+	box-shadow: 1px 2px 5px #404040;
+}
+
+#dream-input-button:active {
+	-moz-box-shadow: inset 1px 2px 5px #404040;
+	-webkit-box-shadow: inset 1px 2px 5px #404040;
+	box-shadow: inset 1px 2px 5px #404040;
+}
 
 
 
