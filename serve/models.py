@@ -6,7 +6,7 @@ from mongoengine import (Document, StringField, DateTimeField, ListField
 class Dream(Document):
     ''' the crux of our app - the basic dream instance
     '''
-    slug = StringField()
+    slug = StringField(unique=True)
     # user-submitted description of their dream
     description = StringField()
     created = DateTimeField()

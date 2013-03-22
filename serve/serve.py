@@ -31,6 +31,7 @@ def home():
 
         # save a new dream instance in the db
         new_dream = Dream(
+            # might want to do something to insure uniqueness
             slug = generate_random_string(5)
             , description = request.form.get('description', '')
             , created = datetime.datetime.utcnow()
