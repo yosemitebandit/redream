@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sass --watch frontend/_scss:frontend/css
