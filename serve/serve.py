@@ -1,8 +1,12 @@
 ''' serve.py
 simple flask server
 '''
+import datetime
 from flask import Flask, request, abort, render_template, redirect, url_for
 from mongoengine import connect
+
+from models import Dream
+from utilities import generate_random_string
 
 # initiate the webapp
 app = Flask(__name__)
@@ -23,10 +27,19 @@ def home():
         return render_template('home.html')
 
     if request.method == 'POST':
-        # make a new dream instance in the db
+        # check CSRF token..
+
+        # save a new dream instance in the db
+        new_dream = Dream(
+            slug = generate_random_string(5)
+            , description = request.form.get('description', '')
+            , created = datetime.datetime.utcnow()
+        )
+        new_dream.save()
+
         # initiate the workers for processing the description
         # redirect to the invidiual dream page
-        return redirect(url_for('dream', dream_slug = dream.slug))
+        return redirect(url_for('dream', dream_slug = new_dream.slug))
 
 
 @app.route('/<dream_slug>')
@@ -34,7 +47,12 @@ def dream(dream_slug):
     ''' GET to find a certain dream-tage
     '''
     # pull the dream from the db
-    return render_template('dream.html', dream=dream)
+    dreams = Dream.objects(slug=dream_slug)
+    if not dreams:
+        # dream not found! ..maybe have a 404 page
+        return redirect(url_for('home'))
+
+    return render_template('dream.html', dream=dreams[0])
 
 
 if __name__ == '__main__':
