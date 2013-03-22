@@ -4,18 +4,24 @@ simple flask server
 import datetime
 from flask import Flask, request, abort, render_template, redirect, url_for
 from mongoengine import connect
+from redis import Redis
+from rq import Queue
 
 from models import Dream
 from utilities import generate_random_string
+from tasks import process_dream
 
 # initiate the webapp
 app = Flask(__name__)
 app.config.from_envvar('REDREAM_SETTINGS')
 
-# connect to the db
+# connect to mongo
 mongo_config = app.config['MONGO']
 connect(mongo_config['db_name'], host=mongo_config['host']
         , port=int(mongo_config['port']))
+
+# connect to redis with defaults
+queue = Queue(connection=Redis())
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,7 +44,9 @@ def home():
         )
         new_dream.save()
 
-        # initiate the workers for processing the description
+        # enqueue the processing for keyword extraction and sourcing clips
+        queue.enqueue(process_dream, new_dream.slug, mongo_config)
+
         # redirect to the invidiual dream page
         return redirect(url_for('dream', dream_slug = new_dream.slug))
 
