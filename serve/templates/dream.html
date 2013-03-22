@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<p>dream desc:</p>
+<p>{{ dream.description }}</p>
+<p>created: {{ dream.created }}</p>
+
+<p>dream keywords:</p>
+{% if dream.keywords %}
+  {% for kw in dream.keywords %}
+    <p>kw</p>
+  {% endfor %}
+
+{% else %}
+  <p>still processing keywords..</p>
+{% endif %}
+
+
+<p>video:</p>
+{% if not dream.montage_incomplete %}
+  <p>your dream-tage:</p>
+{% else %}
+  <p>still workin on it.. sorry :\</p>
+{% endif %}
+
+{% endblock %}

@@ -20,3 +20,4 @@ for the Tribeca Hack event in March 2013.
 * went to a party people were throwing hats like frisbees, people were 
 flying up the houseboat stairs (keywords: frisbees, stairs, spirals)
 * I had a dream where I was watching myself in the mirror and I started to age right in front of my face. My hair turned white and my face wrinkled. It wasn't scary but it was strange (keywords: myself mirror watching age front face hair white face wrinkled scary strange)
+* I jumped over the fence of my childhood neighbor’s backyard and there were bright pink, blue and orange snakes. It was very frightening and I quickly climbed out. 
