@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<form method=post action="{{ url_for('home') }}">
+  <p>please tell us about your dream..</p>
+  <input type='text' name='description' />
+
+  <button type='submit'>Go!</button>
+</form>
+
+{% endblock %}
