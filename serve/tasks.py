@@ -59,7 +59,7 @@ def _find_clip(word, vimeo_config, aws_config):
 
     # sorting categories; note that 'newest' seemed spammy
     sorting = random.choice(['oldest', 'relevant', 'most_played'
-        , 'most_commented', 'most_liked'])
+        , 'most_commented', 'most_liked', 'oldest', 'oldest'])
 
     result = json.loads(client.get(
                 'vimeo.videos.search'
@@ -77,7 +77,7 @@ def _find_clip(word, vimeo_config, aws_config):
     durations = [v['duration'] for v in videos]
     shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
     video = videos[shortest_duration_index]
-    print '%s with sorting %s --> vimeo.com/%s' % (word, sorting, video['id'])
+    print '%s with sorting "%s" --> vimeo.com/%s' % (word, sorting, video['id'])
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
