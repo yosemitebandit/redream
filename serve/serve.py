@@ -134,9 +134,11 @@ def twitter_handle(dream_slug):
         response['success'] = True
         return jsonify(response)
 
-@app.route('/about', methods=['GET'])
+
+@app.route('/about')
 def about():
     return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(
