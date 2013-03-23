@@ -153,11 +153,13 @@ def find_clip(clip, vimeo_config, aws_config):
         video_file.write(r.content)
 
     if int(video['duration']) > 20:
-        # crop the video - start at 30% (wadsworth) and take 10% of total
+        # crop the video - start at 20-70% and take 5-15% of total
+        start_fraction = (random.random()*(0.7-0.2)) + 0.2
         start = time.strftime('%H:%M:%S'
-                , time.gmtime(int(video['duration'])*0.3))
+                , time.gmtime(int(video['duration'])*start_fraction))
+        length_fraction = (random.random()*(0.15-0.05)) + 0.05
         length = time.strftime('%H:%M:%S'
-                , time.gmtime(int(video['duration'])*0.1))
+                , time.gmtime(int(video['duration'])*length_fraction))
         out_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
         # envoy command from http://askubuntu.com/a/35645/68373
         r = envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
