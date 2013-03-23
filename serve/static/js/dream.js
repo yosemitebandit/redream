@@ -15,10 +15,10 @@ var MILSEC_SWITCHING = 5000;
 var MILSEC_TRANSITION = 500;
 
 var init = function () {
-  console.log('init');
 
   $wrapper = $('#wrapper');
   tmpl_video_wrap = $.trim( $('#tmpl-video-wrap').html() );
+  twitter_init();
 
   if (DREAMCLIPS.length) {
     startLoading();
@@ -26,9 +26,34 @@ var init = function () {
   }
 };
 
+var twitter_init = function () {
+  var $handle = $('#twitter-handle');
+  var $submit = $('#twitter-handle-submit');
+  if ($handle.length !== 1 || $submit.length !== 1) {
+    return;
+  }
+  $submit.one(
+    'click',
+    function (ev) {
+      $.post(
+        TWITTER,
+        {handle: $handle.val()},
+        function (data, successText, xhr) {
+          var $parent = $submit.parent();
+          $submit.fadeOut(
+            500,
+            function () {
+              $parent.append('Thanks!');
+            }
+          );
+        }
+      );
+    }
+  );
+};
+
 var startLoading = function () {
   if (DREAMCLIPS.length !== loaded_video.length) {
-    console.log( 'load another video' );
     var i = loaded_video.length;
     var video_meta = DREAMCLIPS[ i ];
     var id = prefix_id + i;
@@ -59,7 +84,6 @@ var getNextCusor = function () {
 };
 
 var switching = function () {
-  console.log('switching!');
   if (DREAMCLIPS.length === 1) {
     return false;
   } 

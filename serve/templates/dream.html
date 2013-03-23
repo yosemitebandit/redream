@@ -14,10 +14,10 @@
         <div class="line centered">or</div>
         <div class="line">Enter your Twitter handle:</div>
         <div class="box-wrap">
-          <input type="text" value="" />
+          <input type="text" value="" id="twitter-handle" />
         </div>
         <div class="submit-button-wrap">
-          <input type="submit" value="submit" />
+          <input type="submit" value="submit" id="twitter-handle-submit" />
         </div>
 
         <div class="progress-bar">
@@ -48,6 +48,8 @@
   <div id="{% raw %}{{ID}}{% endraw %}"></div>
 </script>
 <script>
+  window.TWITTER = "/{{dream.slug}}/twitter";
+
   window.DREAMCLIPS = [
   {% if not dream.montage_incomplete -%}
     {% set counter = 0 -%}
