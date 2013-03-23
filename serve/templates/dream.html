@@ -69,7 +69,8 @@
         title: '{{ clip.source_title }}',
         owner: '{{ clip.source_owner }}',
         page:  '{{ clip.source_url }}',
-        thumb: '{{ clip.source_thumbnail_url }}'
+        thumb: '{{ clip.source_thumbnail_url }}',
+        keyword: '{{ clip.keyword }}'
       }
       {% set counter = counter + 1 -%}
     {% endfor -%}
