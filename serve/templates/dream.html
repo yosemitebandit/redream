@@ -3,41 +3,42 @@
 {% block head_static %}
 {% endblock %}
 
-{% block body %}
-	<div class="row">
-		<div class="large-12 columns">
-			<h2>Redream</h2>
-			<hr />
-		</div>
-	</div>
+{% block circle_block_body %}
+  <div class="large-circle-body">
+    {% if dream.montage_incomplete %}
+      <div class="incomplete-notice">
+        <div class="line">Visit this URL again in a bit:</div>
+        <div class="box-wrap">
+          <input type="text" value="http://redream.us/{{dream.slug}}" />
+        </div>
+        <div class="line centered">or</div>
+        <div class="line">Enter your Twitter handle:</div>
+        <div class="box-wrap">
+          <input type="text" value="" />
+        </div>
+        <div class="submit-button-wrap">
+          <input type="submit" value="submit" />
+        </div>
 
-	<div class="row">
-		<div class="large-8 columns" id="wrapper">
-      {% if dream.montage_incomplete %}
-      <p>rebuilding your dreamland..</p>
-      <p><span id='render-progress'>0%</span> done</p>
-      {% endif %}
-    </div>
+        <div class="progress-bar">
+          <div>Rebuilding your dreamland..</div>
+          <div><span id="render-progress">0%</span> done</div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
 
-		<div class="large-4 columns">
-      <p>
-        dream desc:
-        "{{ dream.description }}"
-      </p>
-      <p>created: {{ dream.created }}</p>
+{% block keyword_block_body %}
 
-      <p>keywords:</p>
-      {% if dream.keywords %}
-      <ul>
-        {% for kw in dream.keywords %}
-        <li>{{ kw }}</li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>still processing keywords..</p>
-      {% endif %}
-		</div>
-	</div>
+{% endblock %}
+
+{% if not dream.montage_incomplete -%}
+  {% set comment_visible_flag = True -%}
+{% endif -%}
+
+{% block comment_block_body %}
+  {{ dream.description }}
 {% endblock %}
 
 {% block body_static %}
@@ -46,7 +47,7 @@
 </script>
 <script>
   window.DREAMCLIPS = [
-  {% if not dream.montage_incomplete %}
+  {% if not dream.montage_incomplete -%}
     {% set counter = 0 -%}
     {% for clip in dream.clips -%}
       {% if counter > 0 -%},{% endif -%}
@@ -57,14 +58,31 @@
         page:  '{{ clip.source_url }}',
         thumb: '{{ clip.source_thumbnail_url }}'
       }
-      {% set counter = counter + 1 %}
+      {% set counter = counter + 1 -%}
     {% endfor -%}
-  {% endif %}
+  {% endif -%}
   ];
+
+  window.DREAM_KEYWORDS = [
+  {% if dream.keywords -%}
+    {% set kw_counter = 0 -%}
+    {% for kw in dream.keywords -%}
+      {% if kw_counter > 0 -%},{% endif -%}
+      "{{ kw }}"
+      {% set kw_counter = kw_counter + 1 -%}
+    {% endfor -%}
+  {% endif -%}
+  ];
+
+
 </script>
 <script src="{% print url_for('static', filename='js/popcorn-complete.js') %}?body=1"></script>
 <script src="{% print url_for('static', filename='js/redreamvideo.js') %}?body=1"></script>
 <script src="{% print url_for('static', filename='js/dream.js') %}?body=1"></script>
+
+<script>
+$(function() {RedreamVideo.globalMute();});
+</script>
 
 {# matt's progress bar abomination #}
 {% if dream.montage_incomplete %}

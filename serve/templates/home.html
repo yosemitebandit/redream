@@ -1,27 +1,16 @@
 {% extends "base.html" %}
 
-{% block body %}
-	<div class="row">
-		<div class="large-12 columns">
-			<h2>Redream</h2>
-			<hr />
-		</div>
-	</div>
+{% block head_static %}
+{% endblock %}
 
-	<div class="row">
-		<div class="large-8 columns" id="wrapper">
-
-      <form method=post action="{{ url_for('home') }}">
-        <p>please tell us about your dream..</p>
-        <input type='text' name='description' />
-
-        <button type='submit'>Go!</button>
-      </form>
-    </div>
-
-		<div class="large-4 columns">
-		</div>
-	</div>
+{% block circle_block_body %}
+  <div class="large-circle-body">
+    <div class="large-circle-headline">Tell us your dream&hellip;</div>
+    <form class="large-circle-form" method="post" action="{{ url_for('home') }}">
+      <textarea name="description"></textarea>
+      <div class="submit-button-wrap"><input type="submit" value="submit" /></div>
+    </form>
+  </div>
 {% endblock %}
 
 {% block body_static %}

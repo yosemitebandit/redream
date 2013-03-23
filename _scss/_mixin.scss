@@ -1,3 +1,17 @@
+@import 'variable';
+
+@mixin header-text-face () {
+  font-family: $type_header;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@mixin body-text-face () {
+  font-family: $type_body;
+  font-style: normal;
+  font-weight: 400;
+}
+
 @mixin transition ($transition-property, $transition-time, $method) {
 	-webkit-transition: $transition-property $transition-time $method;
 	-moz-transition: $transition-property $transition-time $method;
@@ -29,3 +43,36 @@
 	-o-transition-timing-function: $easing;
 	transition-timing-function: $easing;
 }
+
+@mixin box-shadow ($top, $left, $blur, $color, $inset:"") {
+  -webkit-box-shadow:$top $left $blur $color #{$inset};
+     -moz-box-shadow:$top $left $blur $color #{$inset};
+          box-shadow:$top $left $blur $color #{$inset};
+}
+
+@mixin circle-box-shadow () {
+	-webkit-box-shadow: 0 0 4px 2px $circle-shadow-color;
+     -moz-box-shadow: 0 0 4px 2px $circle-shadow-color;
+          box-shadow: 0 0 4px 2px $circle-shadow-color;
+}
+
+@mixin circle-blur () {
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+ 	-ms-filter: blur(2px);
+	filter: blur(2px);
+}
+
+@mixin textbox-shadow () {
+	-webkit-box-shadow: 0 0 4px 2px $textbox-background-color;
+     -moz-box-shadow: 0 0 4px 2px $textbox-background-color;
+          box-shadow: 0 0 4px 2px $textbox-background-color;
+}
+
+@mixin my-submit-shadow () {
+	-webkit-box-shadow: 0 0 2px 1px $submit-background-color;
+  -moz-box-shadow: 0 0 2px 1px $submit-background-color;
+  box-shadow: 0 0 2px 1px $submit-background-color;
+}
+

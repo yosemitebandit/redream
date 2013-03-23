@@ -1,6 +1,176 @@
 @import 'normalize';
-@import 'foundation';
+@import 'variable';
 @import 'mixin';
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-image: url(background.jpg);
+  background-position: no-repeat;
+  background-size: auto 100%;
+  color: $text-white;
+  @include body-text-face();
+  &.portrait-window {
+      background-size: 100% auto;
+  }
+}
+
+.small-circle-container {
+	position: absolute;
+  width: $small-circle-diameter;
+  height: $small-circle-diameter;
+  left: 10px;
+  top: 10px;
+	z-index: 2;
+  /* @include box-shadow(0, 0, 3px, #f00); */
+  @include header-text-face();
+}
+
+.small-circle-background {
+	position: absolute;
+  width: $small-circle-diameter;
+  height: $small-circle-diameter;
+	background-color: $circle-color;
+	border-radius: 50%;
+  @include circle-box-shadow();
+  @include circle-blur();
+}
+
+.small-circle-logo {
+	position: absolute;
+  width: $small-circle-diameter;
+  height: $small-circle-diameter;
+  background-image: url(pillow.png);
+  background-repeat: no-repeat;
+  background-position: center 15px;
+
+  > .text {
+    font-size: 60px;
+    text-align: center;
+    margin-top: 125px;
+	  text-shadow: 1px 1px 3px $text-shadow-color;
+  }
+}
+
+.large-circle-container {
+	position: absolute;
+  width: $large-circle-diameter;
+  height: $large-circle-diameter;
+  left: 90px;
+  top: 90px;
+	z-index: 1;
+  /* @include box-shadow(0, 0, 3px, #00f); */
+}
+
+.large-circle-background {
+	position: absolute;
+  width: $large-circle-diameter;
+  height: $large-circle-diameter;
+  left: 0px;
+  top: 0px;
+
+	background-color: $circle-color;
+	border-radius: 50%;
+  @include circle-box-shadow();
+  @include circle-blur();
+}
+
+.large-circle-body {
+	position: absolute;
+  width: $large-circle-diameter;
+  height: ($large-circle-diameter - 90px);
+  left: 0px;
+  top: 0px;
+  padding-top: 90px;
+}
+
+.large-circle-headline {
+  text-align: center;
+  font-size: 36px;
+  line-height: 1.6;
+}
+
+$circle-form-padding: 80px;
+.large-circle-form {
+  display: block;
+  padding: 0 $circle-form-padding;
+  > textarea {
+    display: block;
+
+    width: ($large-circle-diameter - ($circle-form-padding * 2 + 10px * 2));
+    height: 160px;
+    font-size: 20px;
+    line-height: 1.4;
+
+	  margin-top: 30px;
+	  padding: 10px;
+
+	  color: $text-white;
+	  background-color: $textbox-background-color;
+	  border-radius: 10px;
+	  border: none;
+
+    resize: none;
+
+    @include textbox-shadow();
+  }
+}
+
+.submit-button-wrap {
+  margin-top: 20px;
+  text-align: center;
+
+  > input {
+	  padding: 6px 8px;
+	  font-size: 36px;
+	  color: $text-white;
+	  border: none;
+	  border-radius: 5px;
+
+	  background-color: $textbox-background-color;
+  }
+}
+
+.incomplete-notice {
+  margin-top: 35px;
+  padding: 0 80px;
+
+  > .line {
+    font-size: 36px;
+    text-align: center;
+    &.centered {
+      text-align: center;
+      padding: 10px 0
+    }
+  }
+
+  > .box-wrap {
+    padding: 10px 40px;
+    > input {
+      width: 98%;
+      padding: 5px;
+	    color: $text-white;
+	    background-color: $textbox-background-color;
+	    border-radius: 3px;
+	    border: none;
+      resize: none;
+      @include textbox-shadow();
+    }
+  }
+
+  .progress-bar {
+    padding: 30px 60px;
+    text-align: center;
+  }
+}
+
+
+
+
+
 
 #wrapper {
   position: relative;
@@ -25,4 +195,7 @@
   }
 
 }
+
+
+
 

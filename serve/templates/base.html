@@ -2,22 +2,40 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>redream</title>
-
+    <title>ReDream.Us - Recreate your dreams through video</title>
+    <link href='http://fonts.googleapis.com/css?family=Economica:400,700|Amatic+SC:700' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="{% print url_for('static', filename='css/index.css') %}?body=1" />
     {% block head_static %}
     {% endblock %}
+		<meta name="description" content="Recreate your dreams through video" />
+		<meta name="keywords" content="dream, redream, video, archive" />
   </head>
 
   <body>
-    {% block body %}
-    {% endblock %}
+    <div class="small-circle-container">
+      <div class="small-circle-background"></div>
+      <div class="small-circle-logo">
+        <div class="text">ReDream</div>
+      </div>
+    </div>
+
+    <div class="large-circle-container">
+      <div class="large-circle-background"></div>
+      {% block circle_block_body %}
+      {% endblock %}
+    </div>
+
+    {% if comment_visible_flag is defined %}
+      <div class="comment-container">
+        {% block comment_block_body %}
+        {% endblock %}
+      </div>
+    {% endif %}
 
     <script src="{% print url_for('static', filename='js/jquery-1.9.1.js') %}?body=1"></script>
     <script src="{% print url_for('static', filename='js/mustache.js') %}?body=1"></script>
     {% block body_static %}
     {% endblock %}
+    {# google analytics.. #}
   </body>
-
-  {# google analytics.. #}
 </html>
