@@ -1,7 +1,7 @@
 ''' mongoengine data models
 '''
 from mongoengine import (Document, StringField, DateTimeField, ListField
-        , BooleanField)
+        , BooleanField, ReferenceField)
 
 class Dream(Document):
     ''' the crux of our app - the basic dream instance
@@ -13,6 +13,15 @@ class Dream(Document):
     # the extracted keywords
     keywords = ListField(StringField())
     # one clip for each keyword (order should match the keywords attr)
-    clips = ListField(StringField())
+    clips = ListField(ReferenceField('Clip'))
     # whether or not the video is ready to be played
     montage_incomplete = BooleanField(default=True) # default False is buggy
+
+
+class Clip(Document):
+    s3_url = StringField()
+    source_title = StringField()
+    source_description = StringField()
+    source_url = StringField()
+    source_owner = StringField()
+    source_id = StringField()

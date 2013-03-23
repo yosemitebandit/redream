@@ -24,6 +24,18 @@ def process_dream(dream_slug, mongo_config):
     keywords = _find_keywords(dream.description)
     dream.update(set__keywords = keywords)
 
+    # this should be paralellized via separate jobs or another method..
+    clips = [_find_clip(word) for word in keywords]
+    dream.update(set__clips = clips)
+
+    # all done
+    # dream.update(set__montage_incomplete = False)
+
+
+def _find_clip(word):
+    # find a relevant archival video based on the word's search term
+    pass
+
 
 def _find_keywords(text):
     # tokenize and classify with nltk
