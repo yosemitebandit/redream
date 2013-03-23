@@ -114,11 +114,11 @@ def find_clip(clip, vimeo_config, aws_config):
         return None
 
     # select a video with one of the shortest durations
-    durations = [v['duration'] for v in videos]
+    durations = [int(v['duration']) for v in videos]
     durations.sort()
     selected_duration = durations[random.choice(range(0,5))]
     for v in videos:
-        if v['duration'] == selected_duration:
+        if int(v['duration']) == selected_duration:
             video = v
             break
 
