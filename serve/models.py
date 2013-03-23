@@ -19,6 +19,7 @@ class Dream(Document):
 
 
 class Clip(Document):
+    keyword = StringField()
     mp4_url = StringField()
     archive_name = StringField()  # vimeo, archive.org..
     source_id = StringField()

@@ -12,12 +12,17 @@ import os
 import random
 import re
 import requests
+from redis import Redis
+from rq import Queue
 from scraper import Scraper
 import time
 import vimeo
 
 from models import Dream, Clip
 from utilities import generate_random_string
+
+# connect to redis with defaults
+queue = Queue(connection=Redis())
 
 def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     ''' pull important words from a dream's description
@@ -38,20 +43,54 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     keywords = keywords[0:10]
     dream.update(set__keywords = keywords)
 
-    # this should be parallelized via separate jobs or another method..
+    # preallocate the array of clips
     clips = []
     for word in keywords:
-        clip = _find_clip(word, vimeo_config, aws_config)
-        if clip:
-            clips.append(clip)
+        new_clip = Clip(
+            keyword = word
+            , mp4_url = ''
+        )
+        new_clip.save()
+        clips.append(new_clip)
     dream.update(set__clips = clips)
 
-    # all done
-    dream.update(set__montage_incomplete = False)
+    for index, word in enumerate(keywords):
+        queue.enqueue_call(
+            func=append_clip
+            , args=(word, index, dream, clips[index], mongo_config
+                , vimeo_config, aws_config,)
+            , timeout=300
+        )
 
 
-def _find_clip(word, vimeo_config, aws_config):
-    # find a relevant archival video based on the word's search term
+def append_clip(word, index, dream, clip, mongo_config, vimeo_config
+    , aws_config):
+    ''' appends found clip to a dream
+    cleans up the dream's clips at the end of sourcing
+
+    have issues connecting to mongo with this job too..
+    '''
+    # connect to mongo
+    connect(mongo_config['db_name'], host=mongo_config['host']
+            , port=int(mongo_config['port']))
+
+    # this function updates the clip with video data if possible
+    find_clip(clip, vimeo_config, aws_config)
+
+    # check to see if this was the last keyword to be processed
+    # if that's the case, all mp4_url attrs should be a string or None
+    dream.reload()
+    mp4_urls = [clip.mp4_url for clip in dream.clips]
+    if '' not in mp4_urls:
+        # we're done, clean up the array by removing None values
+        clips = [c for c in dream.clips if c]
+        dream.update(set__clips = clips)
+        dream.update(set__montage_incomplete = False)
+
+
+def find_clip(clip, vimeo_config, aws_config):
+    ''' find a relevant archival video based on the word's search term
+    '''
     # login to vimeo
     client = vimeo.Client(key=vimeo_config['consumer_key']
         , secret = vimeo_config['consumer_secret']
@@ -63,7 +102,7 @@ def _find_clip(word, vimeo_config, aws_config):
 
     result = json.loads(client.get(
                 'vimeo.videos.search'
-                , query=word
+                , query=clip.keyword
                 , page=1
                 , per_page=50
                 , full_response=1
@@ -71,6 +110,7 @@ def _find_clip(word, vimeo_config, aws_config):
             ))
     videos = result['videos']['video']
     if not videos:
+        clip.update(set__mp4_url = None)
         return None
 
     # select a video with one of the shortest durations
@@ -84,12 +124,13 @@ def _find_clip(word, vimeo_config, aws_config):
 
     #shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
     #video = videos[shortest_duration_index]
-    print '  %s with sorting "%s" --> vimeo.com/%s' % (word, sorting
+    print '  %s with sorting "%s" --> vimeo.com/%s' % (clip.keyword, sorting
         , video['id'])
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
     if not vimeo_mp4_url:
+        clip.update(set__mp4_url = None)
         return None
 
     # download the file
@@ -136,20 +177,15 @@ def _find_clip(word, vimeo_config, aws_config):
 
     # save into db
     print 'saving to db'
-    new_clip = Clip(
-        mp4_url = s3_url
-        , archive_name = 'vimeo'
-        , source_id = video['id']
-        , source_title = video['title']
-        , source_description = video['description']
-        , source_url = video['urls']['url'][0]['_content']
-        , source_owner = video['owner']['username']
-        , source_thumbnail_url = (
+    clip.update(set__mp4_url = s3_url)
+    clip.update(set__archive_name = 'vimeo')
+    clip.update(set__source_id = video['id'])
+    clip.update(set__source_title = video['title'])
+    clip.update(set__source_description = video['description'])
+    clip.update(set__source_url = video['urls']['url'][0]['_content'])
+    clip.update(set__source_owner = video['owner']['username'])
+    clip.update(set__source_thumbnail_url = 
             video['thumbnails']['thumbnail'][0]['_content'])
-    )
-    new_clip.save()
-
-    return new_clip
 
 
 def _find_keywords(text):
