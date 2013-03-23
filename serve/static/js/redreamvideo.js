@@ -86,6 +86,9 @@ var RedreamVideo = window.RedreamVideo = function (selector, url) {
 
 RedreamVideo._global = [];
 
+// static
+// ===============================================
+
 RedreamVideo.globalHalt = function () {
   $.each(
     RedreamVideo._global, 
@@ -129,6 +132,9 @@ RedreamVideo.globalUnmute = function () {
     }
   );
 };
+
+// instance
+// ===============================================
 
 RedreamVideo.prototype.play = function () {
   if (this.popcorn && !this.popcorn.isDestroyed) {
