@@ -8,6 +8,7 @@ from mongoengine import connect
 import nltk
 import random
 import re
+import requests
 from scraper import Scraper
 import vimeo
 
@@ -66,17 +67,26 @@ def _find_clip(word, vimeo_config, aws_config):
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
+    # rehost the file on s3
     connection = boto.connect_s3(
         aws_access_key_id=aws_config['access_key_id']
         , aws_secret_access_key=aws_config['secret_access_key'])
     bucket = connection.create_bucket(aws_config['s3_bucket'])
+    bucket.set_acl('public-read')
 
     s3_key = S3_Key(bucket)
-    s3_key.key = generate_random_string(30)
+    s3_key.key = '%s.mp4' % generate_random_string(30)
+    s3_key.set_contents_from_filename(tmp_path)
 
+    s3_url = 'https://s3.amazonaws.com/%s/%s' % (aws_config['s3_bucket']
+        , s3_key.key)
 
+    # delete local copy
+    #os.unlink(tmp_path)
+
+    # save into db
     new_clip = Clip(
-        mp4_url = Scraper.get_vimeo(video['id'])
+        mp4_url = s3_url
         , archive_name = 'vimeo'
         , source_id = video['id']
         , source_title = video['title']
