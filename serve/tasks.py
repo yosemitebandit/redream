@@ -6,6 +6,7 @@ from boto.s3.key import Key as S3_Key
 import json
 from mongoengine import connect
 import nltk
+from operator import itemgetter
 import random
 import re
 import requests
@@ -55,14 +56,18 @@ def _find_clip(word, vimeo_config, aws_config):
                 'vimeo.videos.search'
                 , query=word
                 , page=1
-                , per_page=5
+                , per_page=10
                 , full_response=1
+                , sort='relevant'
             ))
     videos = result['videos']['video']
     if not videos:
         return None
 
-    video = videos[random.randrange(0, len(videos), 1)]
+    # select the video with the shortest duration
+    durations = [v['duration'] for v in videos]
+    index_of_shortest_duration = min(enumerate(a), key=itemgetter(1))[0]
+    video = videos[index_of_shortest_duration]
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
