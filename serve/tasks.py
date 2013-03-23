@@ -189,13 +189,12 @@ def find_clip(clip, configs):
                 , time.gmtime(int(video['duration'])*length_fraction))
         out_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
                 , generate_random_string(10))
-        print out_path
         # envoy command from http://askubuntu.com/a/35645/68373
         try:
             envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
                     % (start, length, tmp_path, out_path))
         except AttributeError:
-            print 'attr error'
+            print 'ffmpeg attr error (bad save path?)'
             return None
     else:
         # short source vid, don't crop
