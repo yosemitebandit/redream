@@ -3,8 +3,8 @@
 {% block circle_block_body %}
   <div class="large-circle-body">
     <div class="large-circle-headline">Tell us your dream&hellip;</div>
-    <form class="large-circle-form" method="post" action="{{ url_for('home') }}">
-      <textarea name="description"></textarea>
+    <form class="large-circle-form" method="post" action="{{ url_for('home') }}" id="large-circle-form">
+      <textarea name="description" id="home-textarea"></textarea>
       <div class="submit-button-wrap"><input type="submit" value="submit" /></div>
     </form>
   </div>

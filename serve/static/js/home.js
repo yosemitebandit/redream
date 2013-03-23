@@ -1,7 +1,13 @@
 (function () {
 
 var init = function () {
-  console.log('home!');
+  var onTextareaKeyup = function (ev) {
+    if (13 === ev.which) {
+      $('#home-textarea').off('keyup', onTextareaKeyup);
+      $('#large-circle-form').submit();
+    }
+  };
+  $('#home-textarea').on('keyup', onTextareaKeyup);
 };
 
 $(init);
