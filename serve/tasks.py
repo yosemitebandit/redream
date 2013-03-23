@@ -74,11 +74,11 @@ def _find_clip(word, vimeo_config, aws_config):
         aws_access_key_id=aws_config['access_key_id']
         , aws_secret_access_key=aws_config['secret_access_key'])
     bucket = connection.create_bucket(aws_config['s3_bucket'])
-    bucket.set_acl('public-read')
 
     s3_key = S3_Key(bucket)
     s3_key.key = '%s.mp4' % generate_random_string(30)
     s3_key.set_contents_from_filename(tmp_path)
+    s3_key.make_public()
 
     s3_url = 'https://s3.amazonaws.com/%s/%s' % (aws_config['s3_bucket']
         , s3_key.key)
