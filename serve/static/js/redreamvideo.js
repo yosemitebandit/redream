@@ -8,6 +8,7 @@ var RedreamVideo = window.RedreamVideo = function (selector, url) {
   popcorn.on(
     'canplay', 
     function () {
+      console.log('canplay!');
       var ww = $dom.width();
       var wh = $dom.height();
       var w_ratio = ww / wh;
