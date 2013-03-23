@@ -28,3 +28,10 @@ VIMEO = {
     , 'consumer_secret': '321abc'
     , 'callback_url': ''
 }
+
+TWITTER = {
+    access_token: '54231'
+    , access_token_secret: '321abc'
+    , consumer_key: 'zyxwv'
+    , consumer_secret: 'lmnop'
+}
