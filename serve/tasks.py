@@ -174,11 +174,13 @@ def find_clip(clip, configs):
     r = requests.get(vimeo_mp4_url)
     tmp_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
             , generate_random_string(10))
+    print tmp_path
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
     if int(video['duration']) > 20:
         # crop the video - start at 20-70% and take 5-15% of total
+        print 'cropping with ffmpeg'
         start_fraction = (random.random()*(0.7-0.2)) + 0.2
         start = time.strftime('%H:%M:%S'
                 , time.gmtime(int(video['duration'])*start_fraction))
@@ -187,10 +189,14 @@ def find_clip(clip, configs):
                 , time.gmtime(int(video['duration'])*length_fraction))
         out_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
                 , generate_random_string(10))
+        print out_path
         # envoy command from http://askubuntu.com/a/35645/68373
-        r = envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
-                % (start, length, tmp_path, out_path))
-        # handle ffmpeg errors?
+        try:
+            envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
+                    % (start, length, tmp_path, out_path))
+        except AttributeError:
+            print 'attr error'
+            return None
     else:
         # short source vid, don't crop
         out_path = tmp_path
