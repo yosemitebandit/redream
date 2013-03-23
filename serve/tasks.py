@@ -6,6 +6,7 @@ from mongoengine import connect
 import nltk
 import random
 import re
+from scraper import Scraper
 import vimeo
 
 from models import Dream
@@ -56,6 +57,10 @@ def _find_clip(word, vimeo_config):
     print chosen_video
     print chosen_video['id']
     print chosen_video['title']
+
+    mp4 = Scraper.get_vimeo(chosen_video['id'])
+
+    print mp4
 
 
 
