@@ -32,7 +32,7 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     keywords = _find_keywords(dream.description)
     dream.update(set__keywords = keywords)
 
-    # this should be paralellized via separate jobs or another method..
+    # this should be parallelized via separate jobs or another method..
     clips = [_find_clip(word, vimeo_config, aws_config) for word in keywords]
     dream.update(set__clips = clips)
 
