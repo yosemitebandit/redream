@@ -23,8 +23,9 @@ connect(mongo_config['db_name'], host=mongo_config['host']
 # connect to redis with defaults
 queue = Queue(connection=Redis())
 
-# pull the vimeo config data
+# pull the vimeo and aws config data
 vimeo_config = app.config['VIMEO']
+aws_config = app.config['AWS']
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -49,7 +50,7 @@ def home():
 
         # enqueue the processing for keyword extraction and sourcing clips
         queue.enqueue(process_dream, new_dream.slug, mongo_config
-            , vimeo_config)
+            , vimeo_config, aws_config)
 
         # redirect to the invidiual dream page
         return redirect(url_for('dream', dream_slug = new_dream.slug))

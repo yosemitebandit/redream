@@ -1,6 +1,8 @@
 ''' tasks.py
 asynch jobs that should be enqueued
 '''
+import boto
+from boto.s3.key import Key as S3_Key
 import json
 from mongoengine import connect
 import nltk
@@ -10,8 +12,9 @@ from scraper import Scraper
 import vimeo
 
 from models import Dream, Clip
+from utilities import generate_random_string
 
-def process_dream(dream_slug, mongo_config, vimeo_config):
+def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     ''' pull important words from a dream's description
     then find relevant clips for each keyword
 
@@ -36,7 +39,7 @@ def process_dream(dream_slug, mongo_config, vimeo_config):
     dream.update(set__montage_incomplete = False)
 
 
-def _find_clip(word, vimeo_config):
+def _find_clip(word, vimeo_config, aws_config):
     # find a relevant archival video based on the word's search term
     # login to vimeo
     client = vimeo.Client(key=vimeo_config['consumer_key']
@@ -53,6 +56,24 @@ def _find_clip(word, vimeo_config):
     videos = result['videos']['video']
     video = videos[random.randrange(0, len(videos), 1)]
     # what if no results are available?
+
+    # pull the vimeo mp4
+    vimeo_mp4_url = Scraper.get_vimeo(video['id'])
+
+    # download the file
+    r = requests.get(vimeo_mp4_url)
+    tmp_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
+    with open(tmp_path, 'wb') as video_file:
+        video_file.write(r.content)
+
+    connection = boto.connect_s3(
+        aws_access_key_id=aws_config['access_key_id']
+        , aws_secret_access_key=aws_config['secret_access_key'])
+    bucket = connection.create_bucket(aws_config['s3_bucket'])
+
+    s3_key = S3_Key(bucket)
+    s3_key.key = generate_random_string(30)
+
 
     new_clip = Clip(
         mp4_url = Scraper.get_vimeo(video['id'])
