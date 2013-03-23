@@ -3,6 +3,7 @@ asynch jobs that should be enqueued
 '''
 import boto
 from boto.s3.key import Key as S3_Key
+import envoy
 import json
 from mongoengine import connect
 import nltk
@@ -11,6 +12,7 @@ import random
 import re
 import requests
 from scraper import Scraper
+import time
 import vimeo
 
 from models import Dream, Clip
@@ -68,7 +70,7 @@ def _find_clip(word, vimeo_config, aws_config):
     durations = [v['duration'] for v in videos]
     shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
     video = videos[shortest_duration_index]
-    print video['id']
+    print '%s --> vimeo.com/%s' % (word, video['id'])
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
@@ -80,6 +82,21 @@ def _find_clip(word, vimeo_config, aws_config):
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
+    if int(video['duration']) > 20:
+        # crop the video - start at 30% (wadsworth) and take 10% of total
+        start = time.strftime('%H:%M:%S'
+                , time.gmtime(int(video['duration'])*0.3))
+        length = time.strftime('%H:%M:%S'
+                , time.gmtime(int(video['duration'])*0.1))
+        out_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
+        # envoy command from http://askubuntu.com/a/35645/68373
+        r = envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
+                % (start, length, tmp_path, out_path))
+        # handle ffmpeg errors?
+    else:
+        # short source vid, don't crop
+        out_path = tmp_path
+
     # rehost the file on s3
     print 'moving to s3'
     connection = boto.connect_s3(
@@ -89,14 +106,16 @@ def _find_clip(word, vimeo_config, aws_config):
 
     s3_key = S3_Key(bucket)
     s3_key.key = '%s.mp4' % generate_random_string(30)
-    s3_key.set_contents_from_filename(tmp_path)
+    s3_key.set_contents_from_filename(out_path)
     s3_key.make_public()
 
     s3_url = 'https://s3.amazonaws.com/%s/%s' % (aws_config['s3_bucket']
         , s3_key.key)
 
-    # delete local copy
+    # delete local copies
     os.unlink(tmp_path)
+    if out_path != tmp_path:
+        os.unlink(out_path)
 
     # save into db
     print 'saving to db'
