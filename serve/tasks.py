@@ -81,6 +81,7 @@ def append_clip(word, index, dream, clip, mongo_config, vimeo_config
     # if that's the case, all mp4_url attrs should be a string or None
     dream.reload()
     mp4_urls = [clip.mp4_url for clip in dream.clips]
+    print mp4_urls
     if '' not in mp4_urls:
         # we're done, clean up the array by removing None values
         clips = [c for c in dream.clips if c]
@@ -100,14 +101,21 @@ def find_clip(clip, vimeo_config, aws_config):
     sorting = random.choice(['oldest', 'relevant', 'most_played'
         , 'most_commented', 'most_liked'])
 
-    result = json.loads(client.get(
-                'vimeo.videos.search'
-                , query=clip.keyword
-                , page=1
-                , per_page=50
-                , full_response=1
-                , sort=sorting
-            ))
+    try:
+        # may fail if certain unicode chars come back from vimeo
+        # \u2019 (right quotation mark), for instance
+        result = json.loads(client.get(
+                    'vimeo.videos.search'
+                    , query=clip.keyword
+                    , page=1
+                    , per_page=50
+                    , full_response=1
+                    , sort=sorting
+                ))
+    except:
+        clip.update(set__mp4_url = None)
+        return None
+
     videos = result['videos']['video']
     if not videos:
         clip.update(set__mp4_url = None)

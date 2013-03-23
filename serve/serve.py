@@ -2,7 +2,8 @@
 simple flask server
 '''
 import datetime
-from flask import Flask, request, abort, render_template, redirect, url_for
+from flask import (Flask, request, abort, render_template, redirect, url_for
+    , jsonify)
 from mongoengine import connect
 from redis import Redis
 from rq import Queue
@@ -68,6 +69,26 @@ def dream(dream_slug):
         return redirect(url_for('home'))
 
     return render_template('dream.html', dream=dreams[0])
+
+
+@app.route('/<dream_slug>/progress')
+def render_progress(dream_slug):
+    ''' GET to see how many video clips we've amassed
+    '''
+    # pull the dream from the db
+    dreams = Dream.objects(slug=dream_slug)
+    if not dreams:
+        # dream not found! ..maybe have a 404 page
+        abort(404)
+
+    response = {'percentage': 0, 'success': True}
+
+    if not dreams.keywords:
+        return jsonify(response)
+
+    mp4_urls = [c.mp4_url for c in dream.clips if c]
+    response['percentage'] = round(len(mp4_urls) / len(dream.keywords), 2)
+    return jsonify(response)
 
 
 if __name__ == '__main__':
