@@ -66,8 +66,9 @@ def _find_clip(word, vimeo_config, aws_config):
 
     # select the video with the shortest duration
     durations = [v['duration'] for v in videos]
-    index_of_shortest_duration = min(enumerate(a), key=itemgetter(1))[0]
-    video = videos[index_of_shortest_duration]
+    shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
+    video = videos[shortest_duration_index]
+    print video['id']
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
