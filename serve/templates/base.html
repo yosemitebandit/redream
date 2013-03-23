@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>ReDream.Us - Recreate your dreams through video</title>
     <link href='http://fonts.googleapis.com/css?family=Economica:400,700|Amatic+SC:700' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="{% print url_for('static', filename='css/index.css') %}?body=1" />
+    <link rel="stylesheet" href="{% print url_for('static', filename='css/index.css') %}" />
     {% block head_static %}
     {% endblock %}
 		<meta name="description" content="Recreate your dreams through video" />
@@ -35,8 +35,8 @@
       </div>
     {% endif %}
 
-    <script src="{% print url_for('static', filename='js/jquery-1.9.1.js') %}?body=1"></script>
-    <script src="{% print url_for('static', filename='js/mustache.js') %}?body=1"></script>
+    <script src="{% print url_for('static', filename='js/jquery-1.9.1.js') %}"></script>
+    <script src="{% print url_for('static', filename='js/mustache.js') %}"></script>
     {% block body_static %}
     {% endblock %}
     {# google analytics.. #}
