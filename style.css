@@ -56,7 +56,7 @@ h1 {
 	margin: 10px;
 	padding: 10px;
 	font-family: "Amatic SC", serif;
-	font-size: 75px;
+	font-size: 60px;
 	color: #FFFCE5;
 	text-shadow: 1px 1px 3px #888;
 }
@@ -78,10 +78,95 @@ img {
 }
 
 .instructions {
-	position: relative; top: 170px; left: 240px;
 	font-size: 36px;
 	font-family: "economica", sans-serif;
 	color: white;
+	z-index: 1;
+}
+
+.small-instructions {
+	font-size: 24px;
+	font-family: "economica", sans-serif;
+	color: white;
+	z-index: 1;
+}
+
+#or {
+	position: relative; top: 270px; left: 340px;
+}
+
+#input-instructions {
+	position: relative; top: 170px; left: 240px;
+}
+
+#link-instructions {
+	position: relative; top: 200px; left: 210px;
+}
+
+#small-link-instructions {
+	position: relative; top: 200px; left: 210px;
+}
+
+#email-instructions{
+	position: relative; top: 370px; left: 240px;
+}
+
+#small-email-instructions {
+	position: relative; top: 370px; left: 240px;
+}
+
+#link-box {
+	position: absolute; top: 230px; left: 240px;
+	width: 200px;
+	height: 30px;
+	margin: 10px;
+	padding: 10px;
+	background-color: #b4a66b;
+	z-index: 1;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
+}
+
+#email-box {
+	position: relative; top: 230px; left: 240px;
+	width: 200px;
+	height: 30px;
+	margin: 10px;
+	padding: 10px;
+	background-color: #b4a66b;
+	z-index: 1;
+	font-family: "economica", sans-serif;
+	font-size: 20px;
+	color: white;
+	background-color: #b4a66b;
+	border-radius: 5px;
+	border: none;
+	z-index: 1;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
+}
+
+#email-box:focus {
+      outline: 0;
+      outline: none;
+}
+
+#email-input-button {
+	position: relative; top: 200px; left: 260px;
+	padding: 6px 8px;
+	font-size: 24px;
+	font-family: "economica", sans-serif;
+	color: white;
+	background-color: #d9c78f;
+	border: none;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 2px 1px #d9c78f;
+	-webkit-box-shadow: 0 0 2px 1px #d9c78f;
+	box-shadow: 0 0 2px 1px #d9c78f;
 	z-index: 1;
 }
 
@@ -105,32 +190,23 @@ img {
 	border-radius: 10px;
 	border: none;
 	z-index: 1;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-	filter: alpha(opacity=90);
-	-moz-opacity: 0.90;
-	-khtml-opacity: 0.90;
 	opacity: 0.90;
 	-moz-box-shadow: 0 0 3px 1px #b4a66b;
 	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
 	box-shadow: 0 0 3px 1px #b4a66b;
-}
-
-#dream-text-input:hover {
-	background-color: #B87F4D;
 	-moz-transition: background-color 20s, -moz-transform 20s;
     -webkit-transition: background-color 20s, -webkit-transform 20s;
     -o-transition: background-color 20s, -o-transform 20s;
     transition: background-color 20s, transform 20s;
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-	filter: alpha(opacity=90);
-	-moz-opacity: 0.90;
-	-khtml-opacity: 0.90;
-	opacity: 0.90;
+}
+
+#dream-text-input:hover {
+	background-color: #B87F4D;
 }
 
 #dream-text-input:focus {
-      outline:0;
-      outline:none;
+      outline: 0;
+      outline: none;
 }
 
 #dream-input-button {
@@ -193,17 +269,6 @@ img {
 }
 
 #largeCircleOpacity {
-	/* Required for IE 5, 6, 7 ...or something to trigger hasLayout, like zoom: 1; */
-	width: 100%; 
-	/* Theoretically for IE 8 & 9 (more valid) but not required as filter works too should come BEFORE filter */
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-	/* This works in IE 8 & 9 too but also 5, 6, 7 */
-	filter: alpha(opacity=75);
-	/* Older than Firefox 0.9 */
-	-moz-opacity:0.75;
-	/* Safari 1.x (pre WebKit!) */
-	-khtml-opacity: 0.75;
-	/* Firefox 0.9+, Safari 2?, Chrome any?, Opera 9+, IE 9+ */
 	opacity: 0.75;
 }
 
