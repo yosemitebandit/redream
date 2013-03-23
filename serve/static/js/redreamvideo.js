@@ -77,7 +77,7 @@ var RedreamVideo = window.RedreamVideo = function (selector, url) {
 
   $dom.addClass( 'popcorn-wrap' );
   video.removeAttribute('controls');
-  video.muted = true;
+  video.muted = false;
   popcorn.loop(true);
   
   RedreamVideo._global.push(this);
