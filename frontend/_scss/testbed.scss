@@ -1,0 +1,28 @@
+@import 'normalize';
+@import 'foundation';
+@import 'mixin';
+
+#wrapper {
+  position: relative;
+}
+
+.popcorn-wrap {
+  position: absolute;
+
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+
+  @include transition-property(opacity);
+  @include transition-duration(2s);
+
+  &.is-hiding {
+    opacity: 0;
+  }
+
+  &.is-above {
+    z-index: 1;
+  }
+
+}
+
