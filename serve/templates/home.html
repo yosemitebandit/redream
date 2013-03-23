@@ -1,12 +1,29 @@
 {% extends "base.html" %}
 
 {% block body %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>Redream</h2>
+			<hr />
+		</div>
+	</div>
 
-<form method=post action="{{ url_for('home') }}">
-  <p>please tell us about your dream..</p>
-  <input type='text' name='description' />
+	<div class="row">
+		<div class="large-8 columns" id="wrapper">
 
-  <button type='submit'>Go!</button>
-</form>
+      <form method=post action="{{ url_for('home') }}">
+        <p>please tell us about your dream..</p>
+        <input type='text' name='description' />
 
+        <button type='submit'>Go!</button>
+      </form>
+    </div>
+
+		<div class="large-4 columns">
+		</div>
+	</div>
+{% endblock %}
+
+{% block body_static %}
+<script src="{% print url_for('static', filename='js/home.js') %}?body=1"></script>
 {% endblock %}
