@@ -33,7 +33,11 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     dream.update(set__keywords = keywords)
 
     # this should be parallelized via separate jobs or another method..
-    clips = [_find_clip(word, vimeo_config, aws_config) for word in keywords]
+    clips = []
+    for word in keywords:
+        clip = _find_clip(word, vimeo_config, aws_config)
+        if clip:
+            clips.append(clip)
     dream.update(set__clips = clips)
 
     # all done
@@ -55,8 +59,10 @@ def _find_clip(word, vimeo_config, aws_config):
                 , full_response=1
             ))
     videos = result['videos']['video']
+    if not videos:
+        return None
+
     video = videos[random.randrange(0, len(videos), 1)]
-    # what if no results are available?
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
