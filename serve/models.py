@@ -20,8 +20,9 @@ class Dream(Document):
 
 class Clip(Document):
     s3_url = StringField()
+    source_id = StringField()
     source_title = StringField()
     source_description = StringField()
     source_url = StringField()
     source_owner = StringField()
-    source_id = StringField()
+    source_thumbnail = StringField()

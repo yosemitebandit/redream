@@ -22,3 +22,9 @@ AWS = {
     , 'access_key_id': 'AKzyxw987'
     , 'secret_access_key': 'lmnop456'
 }
+
+VIMEO = {
+    'consumer_key': 'qrstuv'
+    , 'consumer_secret': '321abc'
+    , 'callback_url': ''
+}

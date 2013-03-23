@@ -1,13 +1,16 @@
 ''' tasks.py
 asynch jobs that should be enqueued
 '''
+import json
 from mongoengine import connect
 import nltk
+import random
 import re
+import vimeo
 
 from models import Dream
 
-def process_dream(dream_slug, mongo_config):
+def process_dream(dream_slug, mongo_config, vimeo_config):
     ''' pull important words from a dream's description
     then find relevant clips for each keyword
 
@@ -25,16 +28,35 @@ def process_dream(dream_slug, mongo_config):
     dream.update(set__keywords = keywords)
 
     # this should be paralellized via separate jobs or another method..
-    clips = [_find_clip(word) for word in keywords]
+    clips = [_find_clip(word, vimeo_config) for word in keywords]
     dream.update(set__clips = clips)
 
     # all done
     # dream.update(set__montage_incomplete = False)
 
 
-def _find_clip(word):
+def _find_clip(word, vimeo_config):
     # find a relevant archival video based on the word's search term
-    pass
+    # login to vimeo
+    client = vimeo.Client(key=vimeo_config['consumer_key']
+        , secret = vimeo_config['consumer_secret']
+        , callback = vimeo_config['callback_url'])
+
+    result = json.loads(client.get(
+                'vimeo.videos.search'
+                , query=word
+                , page=1
+                , per_page=5
+                , full_response=1
+            ))
+    videos = result['videos']['video']
+    # what if no results are available?
+
+    chosen_video = videos[random.randrange(0, len(videos), 1)]
+    print chosen_video
+    print chosen_video['id']
+    print chosen_video['title']
+
 
 
 def _find_keywords(text):
