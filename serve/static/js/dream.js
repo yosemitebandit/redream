@@ -20,8 +20,10 @@ var init = function () {
   $wrapper = $('#wrapper');
   tmpl_video_wrap = $.trim( $('#tmpl-video-wrap').html() );
 
-  startLoading();
-  setTimeout( switching, MILSEC_SWITCHING );
+  if (DREAMCLIPS.length) {
+    startLoading();
+    setTimeout( switching, MILSEC_SWITCHING );
+  }
 };
 
 var startLoading = function () {
