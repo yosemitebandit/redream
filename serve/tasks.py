@@ -55,13 +55,17 @@ def _find_clip(word, vimeo_config, aws_config):
         , secret = vimeo_config['consumer_secret']
         , callback = vimeo_config['callback_url'])
 
+    # sorting categories; note that 'newest' seemed spammy
+    sorting = random.choice(['oldest', 'relevant', 'most_played'
+        , 'most_commented', 'most_liked'])
+
     result = json.loads(client.get(
                 'vimeo.videos.search'
                 , query=word
                 , page=1
-                , per_page=10
+                , per_page=20
                 , full_response=1
-                , sort='relevant'
+                , sort=sorting
             ))
     videos = result['videos']['video']
     if not videos:
@@ -71,10 +75,12 @@ def _find_clip(word, vimeo_config, aws_config):
     durations = [v['duration'] for v in videos]
     shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
     video = videos[shortest_duration_index]
-    print '%s --> vimeo.com/%s' % (word, video['id'])
+    print '%s with sorting %s --> vimeo.com/%s' % (word, sorting, video['id'])
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
+    if not vimeo_mp4_url:
+        return None
 
     # download the file
     print 'downloading local copy'
