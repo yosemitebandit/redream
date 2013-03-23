@@ -9,7 +9,7 @@ import re
 from scraper import Scraper
 import vimeo
 
-from models import Dream
+from models import Dream, Clip
 
 def process_dream(dream_slug, mongo_config, vimeo_config):
     ''' pull important words from a dream's description
@@ -33,7 +33,7 @@ def process_dream(dream_slug, mongo_config, vimeo_config):
     dream.update(set__clips = clips)
 
     # all done
-    # dream.update(set__montage_incomplete = False)
+    dream.update(set__montage_incomplete = False)
 
 
 def _find_clip(word, vimeo_config):
@@ -51,17 +51,23 @@ def _find_clip(word, vimeo_config):
                 , full_response=1
             ))
     videos = result['videos']['video']
+    video = videos[random.randrange(0, len(videos), 1)]
     # what if no results are available?
 
-    chosen_video = videos[random.randrange(0, len(videos), 1)]
-    print chosen_video
-    print chosen_video['id']
-    print chosen_video['title']
+    new_clip = Clip(
+        mp4_url = Scraper.get_vimeo(video['id'])
+        , archive_name = 'vimeo'
+        , source_id = video['id']
+        , source_title = video['title']
+        , source_description = video['description']
+        , source_url = video['urls']['url'][0]['_content']
+        , source_owner = video['owner']['username']
+        , source_thumbnail_url = (
+            video['thumbnails']['thumbnail'][0]['_content'])
+    )
+    new_clip.save()
 
-    mp4 = Scraper.get_vimeo(chosen_video['id'])
-
-    print mp4
-
+    return new_clip
 
 
 def _find_keywords(text):

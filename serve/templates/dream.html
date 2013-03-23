@@ -24,6 +24,14 @@
 <p>video:</p>
 {% if not dream.montage_incomplete %}
   <p>your dream-tage:</p>
+  {% for clip in dream.clips %}
+    {{ clip.mp4_url }}
+    {{ clip.source_title }}
+    {{ clip.source_owner }}
+    {{ clip.source_url }}
+    <img src='{{ clip.source_thumbnail_url }}' />
+  {% endfor %}
+
 {% else %}
   <p>still workin on it.. sorry :\</p>
 {% endif %}
