@@ -4,23 +4,43 @@
 
 	<head>
 	
-		<title>ReDream</title>
+		<title>Redream</title>
 		<meta name="description" content="Recreate your dreams through video" />
 		<meta name="keywords" content="dream, redream, video, archive" />
 		
 		<link type="text/css" rel="stylesheet" href="style.css" media="screen" />
+		<link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Economica' rel='stylesheet' type='text/css'>
+
 
 	</head>
 
 	<body>
-		<img src="http://cdn.dropmark.com/20222/6fb66bdd0115abde0cdc1812b5d997c8a5eaa2ee/pillow-icon.png">
+		<div id="circleContainer">
+        	<div id="redream_logo">
+        		<img src="http://cdn.dropmark.com/20222/6fb66bdd0115abde0cdc1812b5d997c8a5eaa2ee/pillow-icon.png">
+            	<h1>ReDream</h1>
+            </div>
+			
+			<div id="smallCircle">
+			</div>
+			
+			<div id="largeCircleOpacity">
+				<div id="largeCircle">
+				</div>
+			</div>
 
-		<h1>Redream</h1>
-		</br>
-		<div id="dream-text-input-box">
-			<form>
-				<textarea id="dream-text-input" name="dream-text-input" rows="10" cols="50" maxlength="650">Type your dreamy dream...
-				</textarea>
-			</form>
+			<p class="instructions">Tell us your dream..</p>
+
+			<div id="dream-text-input-box">
+				<form>
+					<textarea id="dream-text-input" name="dream-text-input" maxlength="650" onclick="this.focus(); this.select();">Dream here...</textarea>
+					</br>
+					<input id="dream-input-button" type="button" value="Submit">
+				</form>
+			</div>
+
 		</div>
 	</body>
+</html>
