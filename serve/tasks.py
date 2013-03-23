@@ -81,12 +81,16 @@ def append_clip(word, index, dream, clip, mongo_config, vimeo_config
     # if that's the case, all mp4_url attrs should be a string or None
     dream.reload()
     mp4_urls = [clip.mp4_url for clip in dream.clips]
-    print mp4_urls
+    for u in mp4_urls:
+        print u
     if '' not in mp4_urls:
         # we're done, clean up the array by removing None values
         clips = [c for c in dream.clips if c]
         dream.update(set__clips = clips)
         dream.update(set__montage_incomplete = False)
+
+    print('')
+    print('')
 
 
 def find_clip(clip, vimeo_config, aws_config):
