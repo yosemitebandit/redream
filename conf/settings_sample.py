@@ -35,3 +35,8 @@ TWITTER = {
     , 'consumer_key': 'zyxwv'
     , 'consumer_secret': 'lmnop'
 }
+
+GOOGLE_ANALYTICS = {
+    'code': 'UA-123-1'
+    , 'url': 'redreameroo.com'
+}
