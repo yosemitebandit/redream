@@ -50,7 +50,7 @@
     {% for clip in dream.clips -%}
       {% if counter > 0 -%},{% endif -%}
       {
-        clip:  '{{ clip.mp4_url }}',
+        clip:  '{{ clip.mp4_url|safe }}',
         title: '{{ clip.source_title }}',
         owner: '{{ clip.source_owner }}',
         page:  '{{ clip.source_url }}',
