@@ -96,37 +96,38 @@ def render_progress(dream_slug):
     return jsonify(response)
 
 
-@app.route('/<dream_slug>/twitter')
+@app.route('/<dream_slug>/twitter', methods=['POST'])
 def twitter_handle(dream_slug):
     ''' POST a twitter handle here
     and we'll tweet @ them when the video's ready
     '''
-    response = {'success': False, 'message': ''}
+    if request.method == 'POST':
+        response = {'success': False, 'message': ''}
 
-    handle = request.form.get('handle', '')
-    if not handle:
-        response['message'] = 'no handle specified'
-        return jsonify(response)
+        handle = request.form.get('handle', '')
+        if not handle:
+            response['message'] = 'no handle specified'
+            return jsonify(response)
 
-    # add the '@' prefix
-    if handle[0] != '@':
-        handle = '@' + handle
+        # add the '@' prefix
+        if handle[0] != '@':
+            handle = '@' + handle
 
-    # validate the handle
-    r = re.compile(r'(^|[^@\w])@(\w{1,15})\b')
-    if not r.match(handle):
-        response['message'] = 'invalid handle'
-        return jsonify(response)
+        # validate the handle
+        r = re.compile(r'(^|[^@\w])@(\w{1,15})\b')
+        if not r.match(handle):
+            response['message'] = 'invalid handle'
+            return jsonify(response)
 
-    # pull the dream from the db
-    dreams = Dream.objects(slug=dream_slug)
-    if not dreams:
-        # dream not found! ..maybe have a 404 page
-        abort(404)
-    dream = dreams[0]
+        # pull the dream from the db
+        dreams = Dream.objects(slug=dream_slug)
+        if not dreams:
+            # dream not found! ..maybe have a 404 page
+            abort(404)
+        dream = dreams[0]
 
-    # push in the handle
-    dream.update(push__twitter_handles=handle)
+        # push in the handle
+        dream.update(push__twitter_handles=handle)
 
 
 if __name__ == '__main__':
