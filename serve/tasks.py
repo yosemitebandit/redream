@@ -174,7 +174,6 @@ def find_clip(clip, configs):
     r = requests.get(vimeo_mp4_url)
     tmp_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
             , generate_random_string(10))
-    print tmp_path
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
