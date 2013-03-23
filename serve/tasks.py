@@ -73,11 +73,19 @@ def _find_clip(word, vimeo_config, aws_config):
     if not videos:
         return None
 
-    # select the video with the shortest duration
+    # select a video with one of the shortest durations
     durations = [v['duration'] for v in videos]
-    shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
-    video = videos[shortest_duration_index]
-    print '%s with sorting "%s" --> vimeo.com/%s' % (word, sorting, video['id'])
+    durations.sort()
+    selected_duration = durations[random.choice(range(0,5))]
+    for v in videos:
+        if v['duration'] == selected_duration:
+            video = v
+            break
+
+    #shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
+    #video = videos[shortest_duration_index]
+    print '  %s with sorting "%s" --> vimeo.com/%s' % (word, sorting
+        , video['id'])
 
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
