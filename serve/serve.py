@@ -24,10 +24,6 @@ connect(mongo_config['db_name'], host=mongo_config['host']
 # connect to redis with defaults
 queue = Queue(connection=Redis())
 
-# pull the vimeo and aws config data
-vimeo_config = app.config['VIMEO']
-aws_config = app.config['AWS']
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -50,8 +46,15 @@ def home():
         new_dream.save()
 
         # enqueue the processing for keyword extraction and sourcing clips
+
+        configs = {
+            'mongo': mongo_config
+            , 'vimeo': app.config['VIMEO']
+            , 'aws': app.config['AWS']
+            , 'twitter': app.config['TWITTER']
+        }
         queue.enqueue_call(func=process_dream
-            , args=(new_dream.slug, mongo_config, vimeo_config, aws_config,)
+            , args=(new_dream.slug, configs,)
             , timeout=600)
 
         # redirect to the invidiual dream page
@@ -91,6 +94,39 @@ def render_progress(dream_slug):
     response['percentage'] = round(
             float(len(mp4_urls)+1) / (len(dream.keywords)+1), 2)
     return jsonify(response)
+
+
+@app.route('/<dream_slug>/twitter')
+def twitter_handle(dream_slug):
+    ''' POST a twitter handle here
+    and we'll tweet @ them when the video's ready
+    '''
+    response = {'success': False, 'message': ''}
+
+    handle = request.form.get('handle', '')
+    if not handle:
+        response['message'] = 'no handle specified'
+        return jsonify(response)
+
+    # add the '@' prefix
+    if handle[0] != '@':
+        handle = '@' + handle
+
+    # validate the handle
+    r = re.compile(r'(^|[^@\w])@(\w{1,15})\b')
+    if not r.match(handle):
+        response['message'] = 'invalid handle'
+        return jsonify(response)
+
+    # pull the dream from the db
+    dreams = Dream.objects(slug=dream_slug)
+    if not dreams:
+        # dream not found! ..maybe have a 404 page
+        abort(404)
+    dream = dreams[0]
+
+    # push in the handle
+    dream.update(push__twitter_handles=handle)
 
 
 if __name__ == '__main__':

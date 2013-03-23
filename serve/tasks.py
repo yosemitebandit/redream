@@ -24,7 +24,7 @@ from utilities import generate_random_string
 # connect to redis with defaults
 queue = Queue(connection=Redis())
 
-def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
+def process_dream(dream_slug, configs):
     ''' pull important words from a dream's description
     then find relevant clips for each keyword
 
@@ -32,8 +32,8 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     thus the silly passing of the mongo config data
     '''
     # connect to mongo
-    connect(mongo_config['db_name'], host=mongo_config['host']
-            , port=int(mongo_config['port']))
+    connect(configs['mongo']['db_name'], host=configs['mongo']['host']
+            , port=int(configs['mongo']['port']))
 
     dreams = Dream.objects(slug=dream_slug)
     dream = dreams[0]
@@ -57,25 +57,23 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     for index, word in enumerate(keywords):
         queue.enqueue_call(
             func=append_clip
-            , args=(word, index, dream, clips[index], mongo_config
-                , vimeo_config, aws_config,)
+            , args=(word, index, dream, clips[index], configs,)
             , timeout=300
         )
 
 
-def append_clip(word, index, dream, clip, mongo_config, vimeo_config
-    , aws_config):
+def append_clip(word, index, dream, clip, configs):
     ''' appends found clip to a dream
     cleans up the dream's clips at the end of sourcing
 
     have issues connecting to mongo with this job too..
     '''
     # connect to mongo
-    connect(mongo_config['db_name'], host=mongo_config['host']
-            , port=int(mongo_config['port']))
+    connect(configs['mongo']['db_name'], host=configs['mongo']['host']
+            , port=int(configs['mongo']['port']))
 
     # this function updates the clip with video data if possible
-    find_clip(clip, vimeo_config, aws_config)
+    find_clip(clip, configs)
 
     # check to see if this was the last keyword to be processed
     # if that's the case, all mp4_url attrs should be a string or None
@@ -93,13 +91,13 @@ def append_clip(word, index, dream, clip, mongo_config, vimeo_config
     print('')
 
 
-def find_clip(clip, vimeo_config, aws_config):
+def find_clip(clip, configs):
     ''' find a relevant archival video based on the word's search term
     '''
     # login to vimeo
-    client = vimeo.Client(key=vimeo_config['consumer_key']
-        , secret = vimeo_config['consumer_secret']
-        , callback = vimeo_config['callback_url'])
+    client = vimeo.Client(key=configs['vimeo']['consumer_key']
+        , secret = configs['vimeo']['consumer_secret']
+        , callback = configs['vimeo']['callback_url'])
 
     # sorting categories; note that 'newest' seemed spammy
     sorting = random.choice(['oldest', 'relevant', 'most_played'
@@ -172,16 +170,16 @@ def find_clip(clip, vimeo_config, aws_config):
     # rehost the file on s3
     print 'moving to s3'
     connection = boto.connect_s3(
-        aws_access_key_id=aws_config['access_key_id']
-        , aws_secret_access_key=aws_config['secret_access_key'])
-    bucket = connection.create_bucket(aws_config['s3_bucket'])
+        aws_access_key_id=configs['aws']['access_key_id']
+        , aws_secret_access_key=configs['aws']['secret_access_key'])
+    bucket = connection.create_bucket(configs['aws']['s3_bucket'])
 
     s3_key = S3_Key(bucket)
     s3_key.key = '%s.mp4' % generate_random_string(30)
     s3_key.set_contents_from_filename(out_path)
     s3_key.make_public()
 
-    s3_url = 'https://s3.amazonaws.com/%s/%s' % (aws_config['s3_bucket']
+    s3_url = 'https://s3.amazonaws.com/%s/%s' % (configs['aws']['s3_bucket']
         , s3_key.key)
 
     # delete local copies
