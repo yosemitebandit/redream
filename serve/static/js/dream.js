@@ -1,5 +1,5 @@
 /**
- * test test test
+ * dream
  */
 (function() {
 
@@ -26,9 +26,9 @@ var init = function () {
 
   $wrapper = $('#wrapper');
   tmpl_video_wrap = $.trim( $('#tmpl-video-wrap').html() );
-  startLoading();
 
-  setTimetout( switching, 10000 );
+  // startLoading();
+  // setTimetout( switching, 10000 );
 };
 
 var startLoading = function () {
@@ -51,10 +51,8 @@ var startLoading = function () {
   }
 };
 
-var switching = function () {
-  
+var switching = function () {  
 };
-
 
 $(init);
 

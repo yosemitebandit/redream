@@ -1,39 +1,60 @@
 {% extends "base.html" %}
 
+{% block head_static %}
+{% endblock %}
+
 {% block body %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>Redream</h2>
+			<hr />
+		</div>
+	</div>
 
-<p>
-  dream desc:
-  "{{ dream.description }}"
-</p>
-<p>created: {{ dream.created }}</p>
+	<div class="row">
+		<div class="large-8 columns" id="wrapper">
+      <p>video:</p>
+      {% if not dream.montage_incomplete %}
+      <p>your dream-tage:</p>
+      {% for clip in dream.clips %}
+      {{ clip.mp4_url }}
+      {{ clip.source_title }}
+      {{ clip.source_owner }}
+      {{ clip.source_url }}
+      <img src='{{ clip.source_thumbnail_url }}' />
+      {% endfor %}
 
-<p>keywords:</p>
-{% if dream.keywords %}
-  <ul>
-  {% for kw in dream.keywords %}
-    <li>{{ kw }}</li>
-  {% endfor %}
-  </ul>
+      {% else %}
+      <p>still workin on it.. sorry :\</p>
+      {% endif %}
+    </div>
 
-{% else %}
-  <p>still processing keywords..</p>
-{% endif %}
+		<div class="large-4 columns">
+      <p>
+        dream desc:
+        "{{ dream.description }}"
+      </p>
+      <p>created: {{ dream.created }}</p>
 
+      <p>keywords:</p>
+      {% if dream.keywords %}
+      <ul>
+        {% for kw in dream.keywords %}
+        <li>{{ kw }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>still processing keywords..</p>
+      {% endif %}
+		</div>
+	</div>
+{% endblock %}
 
-<p>video:</p>
-{% if not dream.montage_incomplete %}
-  <p>your dream-tage:</p>
-  {% for clip in dream.clips %}
-    {{ clip.mp4_url }}
-    {{ clip.source_title }}
-    {{ clip.source_owner }}
-    {{ clip.source_url }}
-    <img src='{{ clip.source_thumbnail_url }}' />
-  {% endfor %}
-
-{% else %}
-  <p>still workin on it.. sorry :\</p>
-{% endif %}
-
+{% block body_static %}
+<script id="tmpl-video-wrap" type="text/template">
+  <div id="{{ID}}"></div>
+</script>
+<script src="{% print url_for('static', filename='js/popcorn-complete.js') %}?body=1"></script>
+<script src="{% print url_for('static', filename='js/redreamvideo.js') %}?body=1"></script>
+<script src="{% print url_for('static', filename='js/dream.js') %}?body=1"></script>
 {% endblock %}
