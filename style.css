@@ -33,8 +33,7 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before, blockquote:after, q:before, q:after {
 	content: '';
 	content: none;
 }
@@ -44,26 +43,31 @@ table {
 }
 
 
-
 /* Begin Styles */
 
 body {
 	background-image: url(img/background.jpg);
-	background-size: 1600px;
+	background-size: 1400px;
 	background-repeat: no-repeat;
 }
 
 h1 {
+	position: relative; top: -110px;
 	margin: 10px;
 	padding: 10px;
-	font-family: "helvetica", sans-serif;
+	font-family: "Amatic SC", serif;
 	font-size: 60px;
-	color: #FFFDCB;
+	color: #FFFCE5;
+	text-shadow: 1px 1px 3px #888;
+}
+
+img {
+	float: left;
 }
 
 #redream_logo {
-	width: 218px;
-	height: 218px;
+	width: 220px;
+	height: 220px;
 	font-family: 'Amatic SC', cursive;
 	font-size: 48px;
 	text-align:center;
@@ -73,21 +77,163 @@ h1 {
 	z-index: 2;
 }
 
+.instructions {
+	font-size: 36px;
+	font-family: "economica", sans-serif;
+	color: white;
+	z-index: 1;
+}
+
+.small-instructions {
+	font-size: 24px;
+	font-family: "economica", sans-serif;
+	color: white;
+	z-index: 1;
+}
+
+#or {
+	position: relative; top: 270px; left: 340px;
+}
+
+#input-instructions {
+	position: relative; top: 170px; left: 240px;
+}
+
+#link-instructions {
+	position: relative; top: 200px; left: 210px;
+}
+
+#small-link-instructions {
+	position: relative; top: 200px; left: 210px;
+}
+
+#email-instructions{
+	position: relative; top: 370px; left: 240px;
+}
+
+#small-email-instructions {
+	position: relative; top: 370px; left: 240px;
+}
+
+#link-box {
+	position: absolute; top: 230px; left: 240px;
+	width: 200px;
+	height: 30px;
+	margin: 10px;
+	padding: 10px;
+	background-color: #b4a66b;
+	z-index: 1;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
+}
+
+#email-box {
+	position: relative; top: 230px; left: 240px;
+	width: 200px;
+	height: 30px;
+	margin: 10px;
+	padding: 10px;
+	background-color: #b4a66b;
+	z-index: 1;
+	font-family: "economica", sans-serif;
+	font-size: 20px;
+	color: white;
+	background-color: #b4a66b;
+	border-radius: 5px;
+	border: none;
+	z-index: 1;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
+}
+
+#email-box:focus {
+      outline: 0;
+      outline: none;
+}
+
+#email-input-button {
+	position: relative; top: 200px; left: 260px;
+	padding: 6px 8px;
+	font-size: 24px;
+	font-family: "economica", sans-serif;
+	color: white;
+	background-color: #d9c78f;
+	border: none;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 2px 1px #d9c78f;
+	-webkit-box-shadow: 0 0 2px 1px #d9c78f;
+	box-shadow: 0 0 2px 1px #d9c78f;
+	z-index: 1;
+}
+
 #dream-text-input-box {
 	margin: 0 10px 0 20px;
 	padding: 10px;
+	width: 100%; 
 }
 
 #dream-text-input {
-	font-family: "helvetica", sans-serif;
-	font-size: 16px;
-	color: #FFFDCB;
-	background-color: #5A6850;
+	width: 380px;
+	height: 240px;
+	position: absolute; top: 140px; left: 125px;
+	margin-top: 50px;
+	padding: 10px;
+	position: relative;
+	font-family: "economica", sans-serif;
+	font-size: 20px;
+	color: white;
+	background-color: #b4a66b;
+	border-radius: 10px;
+	border: none;
+	z-index: 1;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
+	-moz-transition: background-color 20s, -moz-transform 20s;
+    -webkit-transition: background-color 20s, -webkit-transform 20s;
+    -o-transition: background-color 20s, -o-transform 20s;
+    transition: background-color 20s, transform 20s;
+}
+
+#dream-text-input:hover {
+	background-color: #B87F4D;
+}
+
+#dream-text-input:focus {
+      outline: 0;
+      outline: none;
+}
+
+#dream-input-button {
+	position: relative; top: 160px; left: 260px;
+	padding: 6px 8px;
+	font-size: 36px;
+	font-family: "economica", sans-serif;
+	color: white;
+	background-color: #d9c78f;
+	border: none;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 2px 1px #d9c78f;
+	-webkit-box-shadow: 0 0 2px 1px #d9c78f;
+	box-shadow: 0 0 2px 1px #d9c78f;
+	z-index: 1;
+}
+
+#dream-input-button:active {
+	background-color: #b4a66b;
+	-moz-box-shadow: 0 0 2px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 2px 1px #b4a66b;
+	box-shadow: 0 0 2px 1px #b4a66b;
 }
 
 #smallCircle {
-	width: 218px;
-	height: 218px;
+	width: 220px;
+	height: 220px;
 	background-color: #d8ca81;
 	border-radius: 50%;
 	position: absolute;
@@ -103,7 +249,6 @@ h1 {
   	-moz-filter: blur(2px);
   	-o-filter: blur(2px);
  	-ms-filter: blur(2px);
-
 }
 
 #largeCircle {
@@ -112,8 +257,8 @@ h1 {
 	background-color: #d8ca81;
 	border-radius: 50%;
 	position: absolute;
-    left: 65px;
-    top: 65px;
+    left: 90px;
+    top: 90px;
 	z-index: 0;
 	
 	filter: blur(2px);
@@ -121,14 +266,11 @@ h1 {
   	-moz-filter: blur(2px);
   	-o-filter: blur(2px);
  	-ms-filter: blur(2px);
-
 }
 
 #largeCircleOpacity {
-	/* Required for IE 5, 6, 7 */
-	/* ...or something to trigger hasLayout, like zoom: 1; */
 	width: 100%; 
-
+	opacity: 0.75;
 }
 
 #circleContainer {

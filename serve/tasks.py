@@ -1,13 +1,21 @@
 ''' tasks.py
 asynch jobs that should be enqueued
 '''
+import boto
+from boto.s3.key import Key as S3_Key
+import json
 from mongoengine import connect
 import nltk
+import random
 import re
+import requests
+from scraper import Scraper
+import vimeo
 
-from models import Dream
+from models import Dream, Clip
+from utilities import generate_random_string
 
-def process_dream(dream_slug, mongo_config):
+def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     ''' pull important words from a dream's description
     then find relevant clips for each keyword
 
@@ -23,6 +31,83 @@ def process_dream(dream_slug, mongo_config):
 
     keywords = _find_keywords(dream.description)
     dream.update(set__keywords = keywords)
+
+    # this should be parallelized via separate jobs or another method..
+    clips = []
+    for word in keywords:
+        clip = _find_clip(word, vimeo_config, aws_config)
+        if clip:
+            clips.append(clip)
+    dream.update(set__clips = clips)
+
+    # all done
+    dream.update(set__montage_incomplete = False)
+
+
+def _find_clip(word, vimeo_config, aws_config):
+    # find a relevant archival video based on the word's search term
+    # login to vimeo
+    client = vimeo.Client(key=vimeo_config['consumer_key']
+        , secret = vimeo_config['consumer_secret']
+        , callback = vimeo_config['callback_url'])
+
+    result = json.loads(client.get(
+                'vimeo.videos.search'
+                , query=word
+                , page=1
+                , per_page=5
+                , full_response=1
+            ))
+    videos = result['videos']['video']
+    if not videos:
+        return None
+
+    video = videos[random.randrange(0, len(videos), 1)]
+
+    # pull the vimeo mp4
+    vimeo_mp4_url = Scraper.get_vimeo(video['id'])
+
+    # download the file
+    print 'downloading local copy'
+    r = requests.get(vimeo_mp4_url)
+    tmp_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
+    with open(tmp_path, 'wb') as video_file:
+        video_file.write(r.content)
+
+    # rehost the file on s3
+    print 'moving to s3'
+    connection = boto.connect_s3(
+        aws_access_key_id=aws_config['access_key_id']
+        , aws_secret_access_key=aws_config['secret_access_key'])
+    bucket = connection.create_bucket(aws_config['s3_bucket'])
+
+    s3_key = S3_Key(bucket)
+    s3_key.key = '%s.mp4' % generate_random_string(30)
+    s3_key.set_contents_from_filename(tmp_path)
+    s3_key.make_public()
+
+    s3_url = 'https://s3.amazonaws.com/%s/%s' % (aws_config['s3_bucket']
+        , s3_key.key)
+
+    # delete local copy
+    #os.unlink(tmp_path)
+
+    # save into db
+    print 'saving to db'
+    new_clip = Clip(
+        mp4_url = s3_url
+        , archive_name = 'vimeo'
+        , source_id = video['id']
+        , source_title = video['title']
+        , source_description = video['description']
+        , source_url = video['urls']['url'][0]['_content']
+        , source_owner = video['owner']['username']
+        , source_thumbnail_url = (
+            video['thumbnails']['thumbnail'][0]['_content'])
+    )
+    new_clip.save()
+
+    return new_clip
 
 
 def _find_keywords(text):

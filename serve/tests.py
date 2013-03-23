@@ -29,7 +29,7 @@ class KeywordExtraction(unittest.TestCase):
             , 'front', 'face', 'hair', 'turned', 'white', 'face'
             , 'wrinkled', 'scary', 'strange']
 
-        assert set(expected_keywords) == set(_find_keywords(text)), "found keywords: %s" % _find_keywords(text)
+        assert set(expected_keywords) == set(_find_keywords(text))
 
 
     def test_houseboat_party(self):
