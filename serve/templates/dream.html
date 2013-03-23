@@ -15,6 +15,7 @@
 		<div class="large-8 columns" id="wrapper">
       {% if dream.montage_incomplete %}
       <p>checkout this page again in a minute!</p>
+      <p><span id='render-progress'>0%</span> done</p>
       {% endif %}
     </div>
 
@@ -64,4 +65,27 @@
 <script src="{% print url_for('static', filename='js/popcorn-complete.js') %}?body=1"></script>
 <script src="{% print url_for('static', filename='js/redreamvideo.js') %}?body=1"></script>
 <script src="{% print url_for('static', filename='js/dream.js') %}?body=1"></script>
+
+{# matt's progress bar abomination #}
+{% if dream.montage_incomplete %}
+<script>
+    $(function() {
+
+        progress_checker = setTimeout(function check_progress() {
+            $.get('/{{ dream.slug }}/progress', function(data) {
+                if (data.percentage === 1.0) {
+                    // refresh the page
+                    location.reload();
+                } else {
+                    $('#render-progress').html(100*data.percentage + '%')
+                }
+            });
+
+            setTimeout(check_progress, 1000);
+        }, 1000);
+
+    });
+</script>
+{% endif %}
+
 {% endblock %}
