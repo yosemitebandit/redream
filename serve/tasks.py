@@ -34,6 +34,8 @@ def process_dream(dream_slug, mongo_config, vimeo_config, aws_config):
     dream = dreams[0]
 
     keywords = _find_keywords(dream.description)
+    # limit to ten keywords
+    keywords = keywords[0:10]
     dream.update(set__keywords = keywords)
 
     # this should be parallelized via separate jobs or another method..
