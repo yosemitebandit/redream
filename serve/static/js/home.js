@@ -7,3 +7,7 @@ var init = function () {
 $(init);
 
 })();
+
+$(function() {
+    $('input').focus();
+});
