@@ -61,7 +61,7 @@ h1 {
 	text-shadow: 1px 1px 3px #888;
 }
 
-img {
+#pillow-img {
 	float: left;
 }
 
@@ -91,36 +91,35 @@ img {
 	z-index: 1;
 }
 
-#or {
-	position: relative; top: 270px; left: 340px;
+.super-small-instructions {
+	font-size: 18px;
+	font-family: "economica", sans-serif;
+	color: white;
+	z-index: 1;
 }
 
 #input-instructions {
 	position: relative; top: 170px; left: 240px;
 }
 
-#link-instructions {
-	position: relative; top: 200px; left: 210px;
+#all-instructions {
+	width: 530px;
+	height: 530px ;
+	position: absolute; left: 90px; top: 90px;
+	text-align: center;
+	padding-top: 120px;
 }
 
-#small-link-instructions {
-	position: relative; top: 200px; left: 210px;
-}
-
-#email-instructions{
-	position: relative; top: 370px; left: 240px;
-}
-
-#small-email-instructions {
-	position: relative; top: 370px; left: 240px;
+#or {
+	margin: 20px 0;
 }
 
 #link-box {
-	position: absolute; top: 230px; left: 240px;
+	position: relative; left: 145px; top: 10px;
 	width: 200px;
 	height: 30px;
-	margin: 10px;
-	padding: 10px;
+	margin: 5px 10px 10px 10px;
+	padding: 4px 10px;
 	background-color: #b4a66b;
 	z-index: 1;
 	opacity: 0.90;
@@ -130,11 +129,11 @@ img {
 }
 
 #email-box {
-	position: relative; top: 230px; left: 240px;
+	position: relative; left: 40px;
 	width: 200px;
 	height: 30px;
 	margin: 10px;
-	padding: 10px;
+	padding: 4px 10px;
 	background-color: #b4a66b;
 	z-index: 1;
 	font-family: "economica", sans-serif;
@@ -156,7 +155,7 @@ img {
 }
 
 #email-input-button {
-	position: relative; top: 200px; left: 260px;
+	position: relative; left: 40px;
 	padding: 6px 8px;
 	font-size: 24px;
 	font-family: "economica", sans-serif;
@@ -322,33 +321,12 @@ img {
 	line-height: 120%;
 	color: #ffffff;
 	padding: 40px 40px 40px 80px;
-	/*padding-top:10%;
-	padding: 40px 40px 40px 100px;
-	position:absolute; 
-	top:50%; 
-	height:285px; 
-	margin-top:142.5px;*/
 	z-index: 2;
 
 }
 
 #floater	{float:left; height:50%; margin-bottom:-120px;}
 #content	{clear:both; height:240px; position:relative;}
-
-
-/*
-p.bold {
-  font-size: 20px;
-  font-family: 'Economica';
-  font-weight: lighter;
-}
- 
-@-moz-document url-prefix() {
-  p.hack {
-    font-weight: lighter;
-  }
-}
-*/
 
 
 
