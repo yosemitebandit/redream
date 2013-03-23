@@ -59,7 +59,7 @@ def _find_clip(word, vimeo_config, aws_config):
 
     # sorting categories; note that 'newest' seemed spammy
     sorting = random.choice(['oldest', 'relevant', 'most_played'
-        , 'most_commented', 'most_liked', 'oldest', 'oldest'])
+        , 'most_commented', 'most_liked'])
 
     result = json.loads(client.get(
                 'vimeo.videos.search'
