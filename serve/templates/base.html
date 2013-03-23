@@ -27,8 +27,11 @@
 
     {% if comment_visible_flag is defined %}
       <div class="comment-container">
-        {% block comment_block_body %}
-        {% endblock %}
+        <div class="comment-background"></div>
+        <div class="comment-text">
+          {% block comment_block_body %}
+          {% endblock %}
+        </div>
       </div>
     {% endif %}
 

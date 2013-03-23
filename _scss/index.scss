@@ -168,12 +168,11 @@ $circle-form-padding: 80px;
 }
 
 
-
-
-
-
-#wrapper {
+.video-container {
   position: relative;
+  width: 400px;
+  height: 300px;
+  margin: 45px auto;
 }
 
 .popcorn-wrap {
@@ -196,6 +195,41 @@ $circle-form-padding: 80px;
 
 }
 
+.comment-container {
+  width: 700px;
+  height: 274px;
+  position: absolute;
+  left: 650px;
+  margin-left: 0px;
+  margin-top: 225px;
+  z-index: -1;
+}
 
+.comment-background {
+	width: 700px;
+	height: 274px;
+	position: absolute;
+	background-color: #000000;
+	
+	-webkit-box-shadow: 0 0 4px 2px #edeab7;
+    -moz-box-shadow: 0 0 4px 2px #edeab7;
+    box-shadow: 0 0 4px 2px #edeab7;
+	
+	filter: blur(2px);
+  	-webkit-filter: blur(2px);
+  	-moz-filter: blur(2px);
+  	-o-filter: blur(2px);
+ 	-ms-filter: blur(2px);
+	z-index: -1;
+	
+	opacity: 0.15;
 
+}
 
+.comment-text {
+	font-size: 20px;
+	line-height: 120%;
+	color: #ffffff;
+	padding: 40px 40px 40px 80px;
+	z-index: 2;
+}
