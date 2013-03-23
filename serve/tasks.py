@@ -62,12 +62,14 @@ def _find_clip(word, vimeo_config, aws_config):
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
 
     # download the file
+    print 'downloading local copy'
     r = requests.get(vimeo_mp4_url)
     tmp_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
     # rehost the file on s3
+    print 'moving to s3'
     connection = boto.connect_s3(
         aws_access_key_id=aws_config['access_key_id']
         , aws_secret_access_key=aws_config['secret_access_key'])
@@ -85,6 +87,7 @@ def _find_clip(word, vimeo_config, aws_config):
     #os.unlink(tmp_path)
 
     # save into db
+    print 'saving to db'
     new_clip = Clip(
         mp4_url = s3_url
         , archive_name = 'vimeo'
