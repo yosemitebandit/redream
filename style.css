@@ -33,8 +33,7 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before, blockquote:after, q:before, q:after {
 	content: '';
 	content: none;
 }
@@ -44,21 +43,22 @@ table {
 }
 
 
-
 /* Begin Styles */
 
 body {
 	background-image: url(img/background.jpg);
-	background-size: 1600px;
+	background-size: 1400px;
 	background-repeat: no-repeat;
 }
 
 h1 {
+	position: relative; top: -110px;
 	margin: 10px;
 	padding: 10px;
-	font-family: "gabriela", serif;
-	font-size: 60px;
+	font-family: "Amatic SC", serif;
+	font-size: 75px;
 	color: #FFFCE5;
+	text-shadow: 1px 1px 3px #888;
 }
 
 img {
@@ -66,8 +66,8 @@ img {
 }
 
 #redream_logo {
-	width: 218px;
-	height: 218px;
+	width: 220px;
+	height: 220px;
 	font-family: 'Amatic SC', cursive;
 	font-size: 48px;
 	text-align:center;
@@ -77,29 +77,55 @@ img {
 	z-index: 2;
 }
 
+.instructions {
+	position: relative; top: 170px; left: 240px;
+	font-size: 36px;
+	font-family: "economica", sans-serif;
+	color: white;
+	z-index: 1;
+}
+
 #dream-text-input-box {
 	margin: 0 10px 0 20px;
 	padding: 10px;
+	width: 100%; 
 }
 
 #dream-text-input {
+	width: 380px;
+	height: 240px;
+	position: absolute; top: 140px; left: 125px;
 	margin-top: 50px;
 	padding: 10px;
 	position: relative;
-	font-family: "dosis", sans-serif;
-	font-size: 24px;
-	color: #FFFCE5;
-	background-color: #5A6850;
+	font-family: "economica", sans-serif;
+	font-size: 20px;
+	color: white;
+	background-color: #b4a66b;
 	border-radius: 10px;
 	border: none;
+	z-index: 1;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	filter: alpha(opacity=90);
+	-moz-opacity: 0.90;
+	-khtml-opacity: 0.90;
+	opacity: 0.90;
+	-moz-box-shadow: 0 0 3px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 3px 1px #b4a66b;
+	box-shadow: 0 0 3px 1px #b4a66b;
 }
 
 #dream-text-input:hover {
-	background-color: #91643D;
-	-moz-transition: background-color 10s, -moz-transform 10s;
-    -webkit-transition: background-color 10s, -webkit-transform 10s;
-    -o-transition: background-color 10s, -o-transform 10s;
-    transition: background-color 10s, transform 10s;
+	background-color: #B87F4D;
+	-moz-transition: background-color 20s, -moz-transform 20s;
+    -webkit-transition: background-color 20s, -webkit-transform 20s;
+    -o-transition: background-color 20s, -o-transform 20s;
+    transition: background-color 20s, transform 20s;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	filter: alpha(opacity=90);
+	-moz-opacity: 0.90;
+	-khtml-opacity: 0.90;
+	opacity: 0.90;
 }
 
 #dream-text-input:focus {
@@ -108,27 +134,30 @@ img {
 }
 
 #dream-input-button {
-	padding: 8px 12px;
-	font-size: 18px;
-	font-family: "dosis", sans-serif;
-	color: #FFFCE5;
-	background-color: #9BAE81;
+	position: relative; top: 160px; left: 260px;
+	padding: 6px 8px;
+	font-size: 36px;
+	font-family: "economica", sans-serif;
+	color: white;
+	background-color: #d9c78f;
 	border: none;
 	border-radius: 5px;
-	-moz-box-shadow: 1px 2px 5px #404040;
-	-webkit-box-shadow: 1px 2px 5px #404040;
-	box-shadow: 1px 2px 5px #404040;
+	-moz-box-shadow: 0 0 2px 1px #d9c78f;
+	-webkit-box-shadow: 0 0 2px 1px #d9c78f;
+	box-shadow: 0 0 2px 1px #d9c78f;
+	z-index: 1;
 }
 
 #dream-input-button:active {
-	-moz-box-shadow: inset 1px 2px 5px #404040;
-	-webkit-box-shadow: inset 1px 2px 5px #404040;
-	box-shadow: inset 1px 2px 5px #404040;
+	background-color: #b4a66b;
+	-moz-box-shadow: 0 0 2px 1px #b4a66b;
+	-webkit-box-shadow: 0 0 2px 1px #b4a66b;
+	box-shadow: 0 0 2px 1px #b4a66b;
 }
 
 #smallCircle {
-	width: 218px;
-	height: 218px;
+	width: 220px;
+	height: 220px;
 	background-color: #d8ca81;
 	border-radius: 50%;
 	position: absolute;
@@ -152,8 +181,8 @@ img {
 	background-color: #cfbc6d;
 	border-radius: 50%;
 	position: absolute;
-    left: 65px;
-    top: 65px;
+    left: 90px;
+    top: 90px;
 	z-index: 0;
 	
 	filter: blur(2px);
@@ -164,33 +193,21 @@ img {
 }
 
 #largeCircleOpacity {
-	/* Required for IE 5, 6, 7 */
-	/* ...or something to trigger hasLayout, like zoom: 1; */
+	/* Required for IE 5, 6, 7 ...or something to trigger hasLayout, like zoom: 1; */
 	width: 100%; 
-		
-	/* Theoretically for IE 8 & 9 (more valid) */	
-	/* ...but not required as filter works too */
-	/* should come BEFORE filter */
+	/* Theoretically for IE 8 & 9 (more valid) but not required as filter works too should come BEFORE filter */
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-	
-	/* This works in IE 8 & 9 too */
-	/* ... but also 5, 6, 7 */
+	/* This works in IE 8 & 9 too but also 5, 6, 7 */
 	filter: alpha(opacity=75);
-	
 	/* Older than Firefox 0.9 */
 	-moz-opacity:0.75;
-	
 	/* Safari 1.x (pre WebKit!) */
 	-khtml-opacity: 0.75;
-    
-	/* Modern!
-	/* Firefox 0.9+, Safari 2?, Chrome any?
-	/* Opera 9+, IE 9+ */
+	/* Firefox 0.9+, Safari 2?, Chrome any?, Opera 9+, IE 9+ */
 	opacity: 0.75;
 }
 
 #circleContainer {
-
 	width: 600;
 	height: 600;
 	position: absolute;
