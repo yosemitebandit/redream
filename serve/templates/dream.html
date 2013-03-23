@@ -43,7 +43,9 @@
     {% if not dream.montage_incomplete %}
         <p>
         {% for clip in dream.clips %}
-            <a href="{{ clip.source_url }}">{{ clip.source_title }}</a>
+            <a class='video-credits' href="{{ clip.source_url }}">
+                {{ clip.source_title }}
+            </a>
         {% endfor %}
         </p>
     {% endif %}
