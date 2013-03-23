@@ -16,6 +16,7 @@ from redis import Redis
 from rq import Queue
 from scraper import Scraper
 import time
+from twitter import *
 import vimeo
 
 from models import Dream, Clip
@@ -86,6 +87,29 @@ def append_clip(word, index, dream, clip, configs):
         clips = [c for c in dream.clips if c]
         dream.update(set__clips = clips)
         dream.update(set__montage_incomplete = False)
+
+        # send to the twitterverse
+        t = Twitter(auth=OAuth(
+            configs['twitter']['access_token']
+            , configs['twitter']['access_token_secret']
+            , configs['twitter']['consumer_key']
+            , configs['twitter']['consumer_secret'])
+        )
+
+        url = 'http://redream.us/%s' % dream.slug
+
+        # tweet @ someone
+        if dream.twitter_handles:
+            handles = ', '.join(dream.twitter_handles[0:3])
+            note = 'your dream is ready: '
+            status = '%s %s %s' % (handles, note, url)
+
+        # just tweet to the public timeline
+        else:
+            prefix = dream.description[0:100] + '..'  # should break on words..
+            status = '%s %s' % (prefix, url)
+
+        t.statuses.update(status=status)
 
     print('')
     print('')
