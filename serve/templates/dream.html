@@ -80,13 +80,9 @@
 
 
 </script>
-<script src="{% print url_for('static', filename='js/popcorn-complete.js') %}?body=1"></script>
-<script src="{% print url_for('static', filename='js/redreamvideo.js') %}?body=1"></script>
-<script src="{% print url_for('static', filename='js/dream.js') %}?body=1"></script>
-
-<script>
-$(function() {RedreamVideo.globalMute();});
-</script>
+<script src="{% print url_for('static', filename='js/popcorn-complete.js') %}"></script>
+<script src="{% print url_for('static', filename='js/redreamvideo.js') %}"></script>
+<script src="{% print url_for('static', filename='js/dream.js') %}"></script>
 
 {# matt's progress bar abomination #}
 {% if dream.montage_incomplete %}
