@@ -18,6 +18,16 @@ body {
   }
 }
 
+a:link,
+a:visited {
+  text-decoration: none;
+  color: $link_color;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .small-circle-container {
 	position: absolute;
   width: $small-circle-diameter;
@@ -240,3 +250,41 @@ $circle-form-padding: 80px;
   left: 0;
 
 }
+
+.about-header {
+  font-size: 36px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.about-content {
+  padding: 0 20px;
+}
+
+.footer-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.footer-links {
+  display: block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+
+  > li {
+    display: inline-block;
+    float: left;
+    padding-right: 3px;
+
+    + li:before {
+      content: "|";
+      display: inline-block;
+      padding-right: 3px;
+    }
+  }
+}
+

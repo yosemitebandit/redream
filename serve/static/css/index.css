@@ -355,6 +355,14 @@ body {
   body.portrait-window {
     background-size: 100% auto; }
 
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #7ec0e5; }
+
+a:hover {
+  text-decoration: underline; }
+
 .small-circle-container {
   position: absolute;
   width: 220px;
@@ -549,7 +557,36 @@ body {
   line-height: 120%;
   color: #ffffff;
   padding: 40px 40px 40px 80px;
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   top: 0;
   left: 0; }
+
+.about-header {
+  font-size: 36px;
+  text-align: center;
+  padding-bottom: 10px; }
+
+.about-content {
+  padding: 0 20px; }
+
+.footer-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px; }
+
+.footer-links {
+  display: block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7; }
+  .footer-links > li {
+    display: inline-block;
+    float: left;
+    padding-right: 3px; }
+    .footer-links > li + li:before {
+      content: "|";
+      display: inline-block;
+      padding-right: 3px; }
