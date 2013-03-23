@@ -49,8 +49,9 @@ def home():
         new_dream.save()
 
         # enqueue the processing for keyword extraction and sourcing clips
-        queue.enqueue(process_dream, new_dream.slug, mongo_config
-            , vimeo_config, aws_config)
+        queue.enqueue_call(func=process_dream
+            , args=(new_dream.slug, mongo_config, vimeo_config, aws_config,)
+            , timeout=600)
 
         # redirect to the invidiual dream page
         return redirect(url_for('dream', dream_slug = new_dream.slug))
