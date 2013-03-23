@@ -85,7 +85,7 @@ def append_clip(word, index, dream, clip, configs):
         print u
     if '' not in mp4_urls:
         # we're done, clean up the array by removing None values
-        clips = [c for c in dream.clips if c]
+        clips = [c for c in dream.clips if c.mp4_url]
         dream.update(set__clips = clips)
         dream.update(set__montage_incomplete = False)
 
