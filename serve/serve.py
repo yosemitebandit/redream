@@ -129,6 +129,10 @@ def twitter_handle(dream_slug):
         # push in the handle
         dream.update(push__twitter_handles=handle)
 
+        response['message'] = 'success'
+        response['success'] = True
+        return jsonify(response)
+
 
 if __name__ == '__main__':
     app.run(
