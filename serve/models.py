@@ -16,6 +16,8 @@ class Dream(Document):
     clips = ListField(ReferenceField('Clip'))
     # whether or not the video is ready to be played
     montage_incomplete = BooleanField(default=True) # default False is buggy
+    # tweet at these folks once the video is ready
+    twitter_handles = ListField(StringField())
 
 
 class Clip(Document):
