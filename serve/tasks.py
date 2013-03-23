@@ -106,8 +106,9 @@ def append_clip(word, index, dream, clip, configs):
 
         # just tweet to the public timeline
         else:
-            prefix = dream.description[0:100] + '..'  # should break on words..
-            status = '%s %s' % (prefix, url)
+            # would ideally break the description on different words
+            prefix = dream.description[0:100].strip()
+            status = '%s.. %s' % (prefix, url)
 
         t.statuses.update(status=status)
 
