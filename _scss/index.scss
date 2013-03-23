@@ -14,7 +14,7 @@
   overflow: hidden;
 
   @include transition-property(opacity);
-  @include transition-duration(2s);
+  @include transition-duration(0.5s);
 
   &.is-hiding {
     opacity: 0;
