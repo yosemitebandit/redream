@@ -15,6 +15,7 @@ import requests
 from redis import Redis
 from rq import Queue
 from scraper import Scraper
+import tempfile
 import time
 from twitter import *
 import vimeo
@@ -171,7 +172,8 @@ def find_clip(clip, configs):
     # download the file
     print 'downloading local copy'
     r = requests.get(vimeo_mp4_url)
-    tmp_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
+    tmp_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
+            , generate_random_string(10))
     with open(tmp_path, 'wb') as video_file:
         video_file.write(r.content)
 
@@ -183,7 +185,8 @@ def find_clip(clip, configs):
         length_fraction = (random.random()*(0.15-0.05)) + 0.05
         length = time.strftime('%H:%M:%S'
                 , time.gmtime(int(video['duration'])*length_fraction))
-        out_path = '/tmp/redream-%s.mp4' % generate_random_string(10)
+        out_path = '%s/redream-%s.mp4' % (tempfile.gettempdir()
+                , generate_random_string(10))
         # envoy command from http://askubuntu.com/a/35645/68373
         r = envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
                 % (start, length, tmp_path, out_path))
