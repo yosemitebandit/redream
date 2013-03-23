@@ -80,14 +80,14 @@ def render_progress(dream_slug):
     if not dreams:
         # dream not found! ..maybe have a 404 page
         abort(404)
+    dream = dreams[0]
 
     response = {'percentage': 0, 'success': True}
-
-    if not dreams.keywords:
+    if not dream.keywords:
         return jsonify(response)
 
-    mp4_urls = [c.mp4_url for c in dream.clips if c]
-    response['percentage'] = round(len(mp4_urls) / len(dream.keywords), 2)
+    mp4_urls = ['tally' for c in dream.clips if c.mp4_url]
+    response['percentage'] = round(float(len(mp4_urls)) / len(dream.keywords), 2)
     return jsonify(response)
 
 
