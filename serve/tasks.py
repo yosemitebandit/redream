@@ -90,7 +90,7 @@ def _find_clip(word, vimeo_config, aws_config):
         , s3_key.key)
 
     # delete local copy
-    #os.unlink(tmp_path)
+    os.unlink(tmp_path)
 
     # save into db
     print 'saving to db'

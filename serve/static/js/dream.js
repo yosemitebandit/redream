@@ -60,6 +60,9 @@ var getNextCusor = function () {
 
 var switching = function () {
   console.log('switching!');
+  if (DREAMCLIPS.length === 1) {
+    return false;
+  } 
   var current_video = buffers[cursor].bringFront();
   var next = getNextCusor();
   var next_video = buffers[next];
