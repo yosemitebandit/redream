@@ -65,7 +65,7 @@ def _find_clip(word, vimeo_config, aws_config):
                 'vimeo.videos.search'
                 , query=word
                 , page=1
-                , per_page=30
+                , per_page=50
                 , full_response=1
                 , sort=sorting
             ))
