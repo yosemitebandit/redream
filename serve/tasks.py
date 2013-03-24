@@ -141,11 +141,13 @@ def find_clip(clip, configs):
                     , sort=sorting
                 ))
     except:
+        print ' skipping; vimeo search exception'
         clip.update(set__mp4_url = None)
         return None
 
     videos = result['videos']['video']
     if not videos:
+        print ' skipping; no videos in vimeo search results'
         clip.update(set__mp4_url = None)
         return None
 
@@ -166,6 +168,7 @@ def find_clip(clip, configs):
     # pull the vimeo mp4
     vimeo_mp4_url = Scraper.get_vimeo(video['id'])
     if not vimeo_mp4_url:
+        print ' skipping; scraper was unable to retrieve an mp4'
         clip.update(set__mp4_url = None)
         return None
 
@@ -193,7 +196,7 @@ def find_clip(clip, configs):
             envoy.run('ffmpeg -acodec copy -vcodec copy -ss %s -t %s -i %s %s'
                     % (start, length, tmp_path, out_path))
         except AttributeError:
-            print 'ffmpeg attr error (bad save path?)'
+            print 'skipping; ffmpeg attr error (bad save path?)'
             return None
     else:
         # short source vid, don't crop
