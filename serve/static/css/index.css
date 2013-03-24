@@ -568,7 +568,8 @@ a:hover {
   padding-bottom: 10px; }
 
 .about-content {
-  padding: 0 20px; }
+  padding: 0 70px;
+  font-size: 20px; }
 
 .footer-container {
   position: absolute;
@@ -590,3 +591,11 @@ a:hover {
       content: "|";
       display: inline-block;
       padding-right: 3px; }
+
+.credit-block {
+  font-size: 13px;
+  line-height: 1.3;
+  margin-bottom: 4px; }
+
+.credit-header {
+  font-style: italic; }
