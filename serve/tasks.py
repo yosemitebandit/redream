@@ -74,8 +74,14 @@ def append_clip(word, index, dream, clip, configs):
     connect(configs['mongo']['db_name'], host=configs['mongo']['host']
             , port=int(configs['mongo']['port']))
 
-    # this function updates the clip with video data if possible
-    find_clip(clip, configs)
+    # this function attempts to update the clip object with video data
+    while(1):
+        find_clip(clip, configs)
+        clip.update(inc__mp4_search_attempts=1)
+        clip.reload()
+        if clip.mp4_url or clip.mp4_search_attempts >= 3:
+            print ' gave up trying to get this mp4 :/'
+            break
 
     # check to see if this was the last keyword to be processed
     # if that's the case, all mp4_url attrs should be a string or None
@@ -238,6 +244,8 @@ def find_clip(clip, configs):
     clip.update(set__source_owner = video['owner']['username'])
     clip.update(set__source_thumbnail_url = 
             video['thumbnails']['thumbnail'][0]['_content'])
+
+    return True
 
 
 def _find_keywords(text):

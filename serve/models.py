@@ -1,7 +1,7 @@
 ''' mongoengine data models
 '''
 from mongoengine import (Document, StringField, DateTimeField, ListField
-        , BooleanField, ReferenceField)
+        , BooleanField, ReferenceField, IntField)
 
 class Dream(Document):
     ''' the crux of our app - the basic dream instance
@@ -30,3 +30,4 @@ class Clip(Document):
     source_url = StringField()
     source_owner = StringField()
     source_thumbnail_url = StringField()
+    mp4_search_attempts = IntField(default=0)
