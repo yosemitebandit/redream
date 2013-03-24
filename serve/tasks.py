@@ -204,7 +204,12 @@ def find_clip(clip, configs):
     connection = boto.connect_s3(
         aws_access_key_id=configs['aws']['access_key_id']
         , aws_secret_access_key=configs['aws']['secret_access_key'])
-    bucket = connection.create_bucket(configs['aws']['s3_bucket'])
+
+    # create bucket if it doesn't exist
+    if not connection.lookup(configs['aws']['s3_bucket']):
+        bucket = connection.create_bucket(configs['aws']['s3_bucket'])
+    else:
+        bucket = connection.get_bucket(configs['aws']['s3_bucket'])
 
     s3_key = S3_Key(bucket)
     s3_key.key = '%s.mp4' % generate_random_string(30)
