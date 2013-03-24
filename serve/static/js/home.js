@@ -15,5 +15,5 @@ $(init);
 })();
 
 $(function() {
-    $('input').focus();
+    $('textarea').focus();
 });
