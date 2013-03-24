@@ -94,6 +94,12 @@ def render_progress(dream_slug):
     # +1 to account for the fact that we have keywords
     response['percentage'] = round(
             float(len(mp4_urls)+1) / (len(dream.keywords)+1), 2)
+
+    # corrects calculation
+    # the final dream.clips array is cleaned of all None values
+    if len(mp4_urls) == len(dream.clips):
+        response['percentage'] = 1.0
+
     return jsonify(response)
 
 
