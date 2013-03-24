@@ -133,7 +133,7 @@ def find_clip(clip, configs):
 
     # sorting categories; note that 'newest' seemed spammy
     sorting = random.choice(['oldest', 'relevant', 'most_played'
-        , 'most_commented', 'most_liked'])
+        , 'most_commented', 'most_liked', 'oldest', 'oldest', 'oldest'])
 
     try:
         # may fail if certain unicode chars come back from vimeo
