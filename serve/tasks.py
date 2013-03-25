@@ -41,13 +41,17 @@ def process_dream(dream_slug, configs):
     dream = dreams[0]
 
     keywords = _find_keywords(dream.description)
-    # limit to ten keywords
+    groups = _find_keyword_groups(dream.description, keywords)
+    # limit to ten keywords and ten groups
     keywords = keywords[0:10]
+    keyword_groups = groups[0:10]
     dream.update(set__keywords = keywords)
+    dream.update(set__keyword_groups = keyword_groups)
 
     # preallocate the array of clips
     clips = []
-    for word in keywords:
+    #for word in keywords:
+    for word in keyword_groups:
         new_clip = Clip(
             keyword = word
             , mp4_url = ''
@@ -56,7 +60,8 @@ def process_dream(dream_slug, configs):
         clips.append(new_clip)
     dream.update(set__clips = clips)
 
-    for index, word in enumerate(keywords):
+    #for index, word in enumerate(keywords):
+    for index, word in enumerate(keyword_groups):
         queue.enqueue_call(
             func=append_clip
             , args=(word, index, dream, clips[index], configs,)
@@ -247,6 +252,32 @@ def find_clip(clip, configs):
             video['thumbnails']['thumbnail'][0]['_content'])
 
     return True
+
+
+def _find_keyword_groups(text, keywords):
+    ''' group relevant keywords together
+    '''
+    tokens = nltk.word_tokenize(text)
+    # strip punctuation from the tokens
+    punct = re.compile(r'[-.?!,";()]')
+    tokens = [punct.sub('', t) for t in tokens if punct.sub('', t)]
+
+    # group together consecutive keywords
+    groups = []
+    group = []
+    while(tokens):
+        word = tokens.pop(0)
+        if word in keywords:
+            group.append(word)
+        elif word not in keywords and group:
+            groups.append('+'.join(group))
+            group = []
+    else:
+        # catch the last group if it's not an empty string
+        if group:
+            groups.append('+'.join(group))
+
+    return groups
 
 
 def _find_keywords(text):

@@ -12,6 +12,8 @@ class Dream(Document):
     created = DateTimeField()
     # the extracted keywords
     keywords = ListField(StringField())
+    # grouping one or more keywords
+    keyword_groups = ListField(StringField())
     # one clip for each keyword (order should match the keywords attr)
     clips = ListField(ReferenceField('Clip'))
     # whether or not the video is ready to be played
