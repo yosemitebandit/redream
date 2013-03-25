@@ -159,7 +159,8 @@ def find_clip(clip, configs):
     # select a video with one of the shortest durations
     durations = [int(v['duration']) for v in videos]
     durations.sort()
-    selected_duration = durations[random.choice(range(0,5))]
+    selected_duration = durations[random.choice(range(0
+        , int(0.1*len(durations))))]
     for v in videos:
         if int(v['duration']) == selected_duration:
             video = v
