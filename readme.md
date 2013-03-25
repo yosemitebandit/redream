@@ -78,6 +78,11 @@ test the keyword classifier via nose:
 
 ### Running on the server
 
+this is built with mongodb, redis and flask.
+you should probably use a virtual environment and check our `requirements.txt` file
+you may also need credentials for vimeo, aws and twitter -
+check `conf/settings_sample.py` for more info
+
 it's terrible, but we're just running a bare flask server and the workers
 behind screen.
 here are some helpful commands:
