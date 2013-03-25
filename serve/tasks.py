@@ -224,7 +224,7 @@ def find_clip(clip, configs):
     s3_key.set_contents_from_filename(out_path)
     s3_key.make_public()
 
-    s3_url = 'https://s3.amazonaws.com/%s/%s' % (configs['aws']['s3_bucket']
+    s3_url = 'http://s3.amazonaws.com/%s/%s' % (configs['aws']['s3_bucket']
         , s3_key.key)
 
     # delete local copies
