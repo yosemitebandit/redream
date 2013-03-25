@@ -56,6 +56,15 @@ class KeywordGrouping(unittest.TestCase):
 class KeywordExtraction(unittest.TestCase):
     ''' testing keyword discovery
     '''
+    def test_caterpillar_chomp(self):
+        text = ('I turned into a caterpillar and ate my best friends head'
+            ' until I turned into a red balloon and then blew up the nation.')
+        expected_keywords = ['turned', 'caterpillar', 'ate', 'best', 'friends'
+            , 'head', 'turned', 'red', 'balloon', 'blew', 'nation']
+
+        assert set(expected_keywords) == set(_find_keywords(text)), "found keywords: %s" % _find_keywords(text)
+
+
     def test_fence_jumping(self):
         text = ("I jumped over the fence of my childhood neighbor's backyard"
             ' and there were bright pink, blue and orange snakes. It was very'
