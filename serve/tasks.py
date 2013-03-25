@@ -152,22 +152,23 @@ def find_clip(clip, configs):
 
     videos = result['videos']['video']
     if not videos:
-        print ' skipping; no videos in vimeo search results'
+        print ' skipping; no videos for "%s" in "%s" search' % (clip.keyword
+                , sorting)
         clip.update(set__mp4_url = None)
         return None
 
-    # select a video with one of the shortest durations
-    durations = [int(v['duration']) for v in videos]
-    durations.sort()
-    selected_duration = durations[random.choice(range(0
-        , int(0.1*len(durations))))]
+    # select a video with a short but at least 3 second duration
+    durations = [int(v['duration']) for v in videos if int(v['duration']) >= 3]
+    if len(durations) > 5:
+        durations.sort()
+        durations = durations[0:5]
+
+    selected_duration = durations[random.choice(range(0, len(durations)))]
+
     for v in videos:
         if int(v['duration']) == selected_duration:
             video = v
             break
-
-    #shortest_duration_index = min(enumerate(durations), key=itemgetter(1))[0]
-    #video = videos[shortest_duration_index]
     print '  %s with sorting "%s" --> vimeo.com/%s' % (clip.keyword, sorting
         , video['id'])
 
