@@ -84,7 +84,7 @@ def append_clip(word, index, dream, clip, configs):
         find_clip(clip, configs)
         clip.update(inc__mp4_search_attempts=1)
         clip.reload()
-        if clip.mp4_url or clip.mp4_search_attempts >= 3:
+        if clip.mp4_url or clip.mp4_search_attempts >= 6:
             break
 
     # check to see if this was the last keyword to be processed
