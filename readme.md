@@ -1,5 +1,8 @@
 built by Takashi, Bret, Jenn, Mary, Jessica, Kortney, Brianna and Matt
-for the Tribeca Hack event in March 2013.
+for the Tribeca+GAFFTA Hack event in March 2013.
+
+Checkout our demo video on [vimeo](https://vimeo.com/62589601)
+or try it out at [redream.us](http://redream.us).
 
 
 ### Algorithm thoughts
@@ -19,11 +22,16 @@ for the Tribeca Hack event in March 2013.
 
 * went to a party people were throwing hats like frisbees, people were 
 flying up the houseboat stairs (keywords: frisbees, stairs, spirals)
-* I had a dream where I was watching myself in the mirror and I started to age right in front of my face. My hair turned white and my face wrinkled. It wasn't scary but it was strange (keywords: myself mirror watching age front face hair white face wrinkled scary strange)
-* I jumped over the fence of my childhood neighbor’s backyard and there were bright pink, blue and orange snakes. It was very frightening and I quickly climbed out. 
+* I had a dream where I was watching myself in the mirror and I started to age 
+right in front of my face. My hair turned white and my face wrinkled. It 
+wasn't scary but it was strange (keywords: myself mirror watching age front 
+face hair white face wrinkled scary strange)
+* I jumped over the fence of my childhood neighbor’s backyard and there were 
+bright pink, blue and orange snakes. It was very frightening and I quickly 
+climbed out. 
 
 
-### Running the worker
+### Running a worker
 
 we're using [rq](http://python-rq.org).
 
@@ -33,18 +41,20 @@ we're using [rq](http://python-rq.org).
 
 ### Testing
 
-test the classifier via nose:
+test the keyword classifier via nose:
 
     $ nosetests serve
 
 
 ### Running on the server
 
-it's terrible, but we're just running a bare flask server and the worker behind screen;
-here are some helpful commands
+it's terrible, but we're just running a bare flask server and the workers
+behind screen.
+here are some helpful commands:
 
     $ screen -ls  # view sessions
     $ screen -r  # reattach to a session with tab
     $ [Ctrl-a] [c]   # within screen, create a new window
     $ [Ctrl-a] [n], [Ctrl-a] [p]  # within screen, navigate windows
+    $ [Ctrl-a] [[]  # within screen, enable scrolling
     $ [Ctrl-d]  # detach screen session
