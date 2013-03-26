@@ -99,7 +99,7 @@
 <script>
     $(function() {
 
-        progress_checker = setTimeout(function check_progress() {
+        progress_checker = window.setTimeout(function check_progress() {
             $.get('/{{ dream.slug }}/progress', function(data) {
                 if (data.percentage === 1.0) {
                     // refresh the page
@@ -111,6 +111,11 @@
 
             setTimeout(check_progress, 1000);
         }, 1000);
+
+        // fails silently after 30s :/
+        window.setTimeout(function() {
+            window.clearTimeout(progress_checker);
+        }, 30000);
 
     });
 </script>
