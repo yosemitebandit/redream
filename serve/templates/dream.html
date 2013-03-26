@@ -32,6 +32,8 @@
 
 {% block js %}
 {% if not dream.montage_incomplete %}
+    <script src="{{ url_for('static', filename='js/popcorn-complete.js') }}"></script>
+
     <script>
         {# load the clips
         #}
