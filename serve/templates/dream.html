@@ -4,23 +4,24 @@
   <div class="large-circle-body">
     {% if dream.montage_incomplete %}
       <div class="incomplete-notice">
-        <div class="line">Visit this URL again in a bit:</div>
+          <div class="line">
+            rebuilding your dreamland..
+          </div>
+
+          <div class="line">
+            (<span id='render-progress'>0%</span>)
+          </div>
+          <br />
+
+        <div class="line">give us your twitter handle</div>
         <div class="box-wrap">
-          <input type="text" value="http://redream.us/{{dream.slug}}" />
-        </div>
-        <div class="line centered">or</div>
-        <div class="line">Enter your Twitter handle:</div>
-        <div class="box-wrap">
-          <input type="text" value="" id="twitter-handle" />
+            <input type="text" value="" id="twitter-handle" />
         </div>
         <div class="submit-button-wrap">
-          <input type="submit" value="submit" id="twitter-handle-submit" />
+          <input type="submit" value="save" id="twitter-handle-submit" />
         </div>
+        <div class="line">and we'll message you when your video's ready</div>
 
-        <div class="progress-bar">
-          <div>Rebuilding your dreamland..</div>
-          <div><span id="render-progress">0%</span> done</div>
-        </div>
       </div>
     {% else %}
       <div id="wrapper" class="video-container"></div>
