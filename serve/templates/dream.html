@@ -1,125 +1,78 @@
 {% extends "base.html" %}
 
-{% block circle_block_body %}
-  <div class="large-circle-body">
-    {% if dream.montage_incomplete %}
-      <div class="incomplete-notice">
-          <div class="line">
-            rebuilding your dreamland..
-          </div>
+{% block body %}
 
-          <div class="line">
-            (<span id='render-progress'>0%</span>)
-          </div>
-          <br />
+<p>{{ dream.description }}</p>
 
-        <div class="line">give us your twitter handle</div>
-        <div class="box-wrap">
-            <input type="text" value="" id="twitter-handle" />
-        </div>
-        <div class="submit-button-wrap">
-          <input type="submit" value="save" id="twitter-handle-submit" />
-        </div>
-        <div class="line">and we'll message you when your video's ready</div>
-
-      </div>
-    {% else %}
-      <div id="wrapper" class="video-container"></div>
-    {% endif %}
-  </div>
-{% endblock %}
-
-{% block keyword_block_body %}
-
-{% endblock %}
-
-{% if not dream.montage_incomplete -%}
-  {% set comment_visible_flag = True -%}
-{% endif -%}
-
-{% block comment_block_body %}
-    <p>{{ dream.description }}</p>
-
-    {# roll credits #}
-    {% if not dream.montage_incomplete %}
-        <p>
-        {% for clip in dream.clips %}
-            <a class='video-credits' href="{{ clip.source_url }}">
-                {{ clip.source_title }}
-            </a>
-        {% endfor %}
-        </p>
-    {% endif %}
-
-{% endblock %}
-
-{% block body_static %}
-<script id="tmpl-video-wrap" type="text/template">
-  <div id="{% raw %}{{ID}}{% endraw %}"></div>
-</script>
-<script>
-  window.TWITTER = "/{{dream.slug}}/twitter";
-
-  window.DREAMCLIPS = [
-  {% if not dream.montage_incomplete -%}
-    {% set counter = 0 -%}
-    {% for clip in dream.clips -%}
-      {% if counter > 0 -%},{% endif -%}
-      {
-        clip:  '{{ clip.mp4_url|safe }}',
-        title: '{{ clip.source_title }}',
-        owner: '{{ clip.source_owner }}',
-        page:  '{{ clip.source_url }}',
-        thumb: '{{ clip.source_thumbnail_url }}',
-        keyword: '{{ clip.keyword }}'
-      }
-      {% set counter = counter + 1 -%}
-    {% endfor -%}
-  {% endif -%}
-  ];
-
-  window.DREAM_KEYWORDS = [
-  {% if dream.keywords -%}
-    {% set kw_counter = 0 -%}
-    {% for kw in dream.keywords -%}
-      {% if kw_counter > 0 -%},{% endif -%}
-      "{{ kw }}"
-      {% set kw_counter = kw_counter + 1 -%}
-    {% endfor -%}
-  {% endif -%}
-  ];
-
-
-</script>
-<script src="{% print url_for('static', filename='js/popcorn-complete.js') %}"></script>
-<script src="{% print url_for('static', filename='js/redreamvideo.js') %}"></script>
-<script src="{% print url_for('static', filename='js/dream.js') %}"></script>
-
-{# matt's progress bar abomination #}
 {% if dream.montage_incomplete %}
-<script>
-    $(function() {
+    <p>
+        rebuilding your dreamland.. 
+        (<span id='render-progress'>0%</span>)
+    </p>
 
-        progress_checker = window.setTimeout(function check_progress() {
-            $.get('/{{ dream.slug }}/progress', function(data) {
-                if (data.percentage === 1.0) {
-                    // refresh the page
-                    location.reload();
-                } else {
-                    $('#render-progress').html(100*data.percentage + '%')
-                }
-            });
+    <p>give us your twitter handle and we'll message you when your video's ready</p>
+    <input type='text' id='twitter-handle' />
+    <input type='submit' value='save' id='twitter-handle-submit' />
 
-            setTimeout(check_progress, 1000);
-        }, 1000);
+{% else %}
+    <div id="wrapper" class="video-container"></div>
 
-        // fails silently after 30s :/
-        window.setTimeout(function() {
-            window.clearTimeout(progress_checker);
-        }, 30000);
+    {% for clip in dream.clips %}
+        <p>
+            {{ clip.keyword }}
+            ->
+            <a href='{{ clip.source_url }}'>{{ clip.source_title }}</a>
+        </p>
+    {% endfor %}
 
-    });
-</script>
 {% endif %}
 
-{% endblock %}
+{% endblock %} {# /body #}
+
+
+{% block js %}
+{% if not dream.montage_incomplete %}
+    <script>
+        {# load the clips
+        #}
+        dream_clips = [
+            {% for clip in dream.clips %}
+                {
+                    mp4_url:  '{{ clip.mp4_url|safe }}'
+                    , source_title: '{{ clip.source_title }}'
+                    , source_owner: '{{ clip.source_owner }}'
+                    , source_url:  '{{ clip.source_url }}'
+                    , thumbnail_url: '{{ clip.source_thumbnail_url }}'
+                    , keyword: '{{ clip.keyword }}'
+                },
+            {% endfor %}
+        ];
+    </script>
+
+{% else %}
+    <script>
+        {# adjust progress bar
+        #}
+        $(function() {
+            progress_checker = window.setTimeout(function check_progress() {
+                $.get('/{{ dream.slug }}/progress', function(data) {
+                    if (data.percentage === 1.0) {
+                        // refresh the page
+                        location.reload();
+                    } else {
+                        $('#render-progress').html(100*data.percentage + '%')
+                    }
+                });
+
+                setTimeout(check_progress, 1000);
+            }, 1000);
+
+            // fails silently after 30s :/
+            window.setTimeout(function() {
+                window.clearTimeout(progress_checker);
+            }, 30000);
+        });
+    </script>
+{% endif %}
+
+{% endblock %} {# /js #}

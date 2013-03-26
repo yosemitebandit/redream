@@ -1,21 +1,16 @@
 {% extends "base.html" %}
 
-{% block circle_block_body %}
-  <div class="large-circle-body">
-    <div class="large-circle-headline">tell us your dream&hellip;</div>
-
-    <form class="large-circle-form" method="post"
-        action="{{ url_for('home') }}" id="large-circle-form">
-      <textarea name="description" id="home-textarea"></textarea>
-        <div class="large-circle-headline">and we'll recreate it.</div>
-        <div class="submit-button-wrap">
-            <input id='dream-submit' type="submit" value="go" />
-        </div>
-    </form>
-
-  </div>
+{% block body %}
+<form method='post' action="{{ url_for('home') }}">
+    <input id='description' name='description' />
+    <input type='submit' value='go' />
+</form>
 {% endblock %}
 
-{% block body_static %}
-    <script src="{% print url_for('static', filename='js/home.js') %}"></script>
+{% block js %}
+<script>
+    $(function() {
+        $('#description').focus();
+    });
+</script>
 {% endblock %}
