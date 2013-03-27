@@ -136,8 +136,9 @@ def find_clip(clip, configs):
         , callback = configs['vimeo']['callback_url'])
 
     # sorting categories; note that 'newest' seemed spammy
-    sorting = random.choice(['oldest', 'relevant', 'most_played'
-        , 'most_commented', 'most_liked', 'oldest', 'oldest', 'oldest'])
+    # slight bias towards 'oldest'
+    sorting = random.choice(['oldest', 'oldest', 'relevant', 'most_played'
+        , 'most_commented', 'most_liked'])
 
     try:
         # may fail if certain unicode chars come back from vimeo
